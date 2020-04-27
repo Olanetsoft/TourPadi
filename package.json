@@ -1,0 +1,19 @@
+{
+  "name": "tourism-api-endpoint",
+  "version": "1.0.0",
+  "description": "End point for tourism app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Olanetsoft/tourism-api-endpoint.git"
+  },
+  "author": "Idris Olubisi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Olanetsoft/tourism-api-endpoint/issues"
+  },
+  "homepage": "https://github.com/Olanetsoft/tourism-api-endpoint#readme"
+}
