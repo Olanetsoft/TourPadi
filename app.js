@@ -1,4 +1,3 @@
-const fs = require('fs');
 const express = require('express');
 const morgan = require('morgan');
 
@@ -9,32 +8,14 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 
-//Reading the file from a data
-const theTours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`))
-
-app.get('/api/v1/tours', (req, res) => {
-    res.status(200).json({
-        status: 'success 🙌',
-        result: theTours.length,
-        data: {
-            theTours
-        }
-    })
-});
+//adding the route configuration 
+const tourRoutes = require('./routes/tours');
+const usersRoutes = require('./routes/users');
 
 
-app.get('/api/v1/tours/:id', (req, res) => {
-    const id = req.params.id * 1;
-    const tour = theTours.find(el => el.id === id)
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            tour
-        }
-    })
-});
-
+//registering the route middleware
+app.use(tourRoutes);
+app.use(usersRoutes);
 
 
 
