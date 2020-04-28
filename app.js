@@ -9,7 +9,7 @@ app.use(express.json());
 //Reading the file from a data
 const theTours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`))
 
-app.get('/api/v1/tours', (req, res)=>{
+app.get('/api/v1/tours', (req, res) => {
     res.status(200).json({
         status: 'success',
         result: theTours.length,
@@ -17,12 +17,25 @@ app.get('/api/v1/tours', (req, res)=>{
             theTours
         }
     })
-}); 
+});
+
+
+app.get('/api/v1/tours/:id', (req, res) => {
+    const id = req.params.id * 1;
+    const tour = theTours.find(el => el.id === id)
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            tour
+        }
+    })
+});
 
 
 
 
 
-app.listen('3000', ()=>{
+app.listen('3000', () => {
     console.log('Bro i dey listen to 3000');
 });
