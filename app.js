@@ -1,8 +1,11 @@
 const fs = require('fs');
 const express = require('express');
+const morgan = require('morgan');
 
 const app = express();
 
+//Middleware registered
+app.use(morgan('dev'));
 app.use(express.json());
 
 
