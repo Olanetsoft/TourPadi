@@ -20,6 +20,4 @@ app.use(usersRoutes);
 
 
 
-app.listen('3000', () => {
-    console.log('Bro i dey listen to 3000');
-});
+module.exports = app;
