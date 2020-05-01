@@ -7,6 +7,8 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
 
+//registering a middleware for static files
+app.use(express.static(`${__dirname}/public`));
 
 //adding the route configuration 
 const tourRoutes = require('./routes/tours');
