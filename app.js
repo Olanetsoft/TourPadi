@@ -4,7 +4,12 @@ const morgan = require('morgan');
 const app = express();
 
 //Middleware registered
-app.use(morgan('dev'));
+//Using morgan only in development
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+}
+
+//Middleware registered
 app.use(express.json());
 
 //registering a middleware for static files
