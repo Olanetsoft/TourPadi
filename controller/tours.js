@@ -73,6 +73,8 @@ exports.getSingleTour = async (req, res, next) => {
     }
 
 };
+
+
 //update a single tour
 exports.updateTour = async (req, res, next) => {
     try {
@@ -89,6 +91,23 @@ exports.updateTour = async (req, res, next) => {
     } catch (err) {
         res.status(404).json({
             status: "failed",
+            message: err
+        });
+    };
+
+};
+
+//delete a single tour
+exports.deleteTour = async (req, res, next) => {
+    try {
+        await Tour.findByIdAndDelete(req.params.id);
+        res.status(204).json({
+            status: 'success',
+            data: null
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: "failed to delete",
             message: err
         });
     };
