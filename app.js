@@ -22,7 +22,7 @@ const usersRoutes = require('./routes/users');
 
 //registering the route middleware
 app.use(tourRoutes);
-app.use(usersRoutes);
+//app.use(usersRoutes);
 
 
 

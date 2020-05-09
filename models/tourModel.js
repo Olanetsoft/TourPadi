@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const tourSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, 'a tour must have a name']
+        required: [true, 'a tour must have a name'],
+        unique
     },
     rating: {
         type: Number,
