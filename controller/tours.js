@@ -17,40 +17,58 @@ exports.createTour = async (req, res, next) => {
         res.status(201).json({
             status: 'success 🙌',
             result: newTour.length,
-            newTour
+            data: {
+                newTour
+            }
+
         })
-    } catch(err){
+    } catch (err) {
         res.status(400).json({
             status: 'failed',
             message: err
-        }) 
+        })
         console.log("FIle not created: " + err);
     }
-    
+
 }
 
 
 
 //Gets all the tours
-exports.getTours = (req, res, next) => {
-    res.status(200).json({
-        status: 'success 🙌',
-        // result: theTours.length,
-        // data: {
-        //     theTours
-        // }
-    })
+exports.getTours = async (req, res, next) => {
+    try {
+        const allTours = await Tour.find()
+        res.status(200).json({
+            status: 'success 🙌',
+            result: allTours.length,
+            data: {
+                allTours
+            }
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: "failed",
+            message: err
+        });
+    }
 }
 
-//gets a single tour
-// exports.getSingleTour = (req, res, next) => {
-//     const id = req.params.id * 1;
-//     const tour = theTours.find(el => el.id === id)
 
-//     res.status(200).json({
-//         status: 'success',
-//         data: {
-//             tour
-//         }
-//     });
-// }
+//gets a single tour
+exports.getSingleTour = async (req, res, next) => {
+    try {
+        const singleTour = await Tour.findById(req.param.id)
+        res.status(200).json({
+            status: 'success',
+            data: {
+                singleTour
+            }
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: "failed",
+            message: err
+        });
+    }
+
+};
