@@ -11,7 +11,7 @@ mongoose.connect(process.env.DATABASE, {
     useCreateIndex: true,
     useFindAndModify: false
 }).then(result => {
-    console.log('DB Connected successfully')
+    console.log('DB Connected successfully🎉')
 }).catch(err => {
     console.log(err)
 });
