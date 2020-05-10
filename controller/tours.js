@@ -37,7 +37,7 @@ exports.createTour = async (req, res, next) => {
 //Gets all the tours
 exports.getTours = async (req, res, next) => {
     try {
-        const allTours = await Tour.find()
+        const allTours = await Tour.find(req.query);
         res.status(200).json({
             status: 'success 🙌',
             result: allTours.length,
