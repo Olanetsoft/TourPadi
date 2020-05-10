@@ -37,7 +37,18 @@ exports.createTour = async (req, res, next) => {
 //Gets all the tours
 exports.getTours = async (req, res, next) => {
     try {
-        const allTours = await Tour.find(req.query);
+        //creating a copy
+        //TO BUILD THE QUERY
+        const queryObj = { ...req.query };
+        const excludedFields = ['page', 'sort', 'limit', 'fields'];
+        excludedFields.forEach(el => delete queryObj[el]);
+    
+        const query = Tour.find(queryObj);
+
+        //EXECUTE THE QUERY_OBJ
+        const allTours = await query;
+
+        //SEND RESPONSE IN JSON
         res.status(200).json({
             status: 'success 🙌',
             result: allTours.length,
