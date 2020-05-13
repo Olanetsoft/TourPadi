@@ -5,7 +5,7 @@ const Tour = require('./../models/tourModel');
 //importing apiFeatures class
 const APIFeatures = require('./../utils/apiFeatures')
 
-//middleware
+//middleware to query top 5 cheap tours
 exports.aliasTopTours = (req, res, next) => {
     req.query.limit = '5';
     req.query.sort = '-ratingsAverage,price';
