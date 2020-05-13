@@ -12,7 +12,7 @@ const tourSchema = new mongoose.Schema({
         type: Number,
         required: [true, 'A tour must have a duration 😥']
     },
-    maxGroupSize : {
+    maxGroupSize: {
         type: Number,
         required: [true, 'A tour must have a Group Size 😥']
     },
@@ -52,8 +52,20 @@ const tourSchema = new mongoose.Schema({
         default: Date.now()
     },
     startDates: [Date]
+},
+    //to make the virtual show up when a request is made you need to enable it here in the schema
+    {
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true },
+    }
+);
+
+//to create a virtual document thats not literally in the DB
+tourSchema.virtual('durationWeeks').get(function () {
+    return this.duration / 7;
 });
 
+//define the Tour Model
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;

@@ -36,9 +36,10 @@ exports.createTour = async (req, res, next) => {
             message: err
         })
         console.log("FIle not created: " + err);
-    }
+    };
 
-}
+};
+
 
 //Gets all the tours
 exports.getTours = async (req, res, next) => {
@@ -180,7 +181,7 @@ exports.getMonthlyPlan = async (req, res, next) => {
                 $unwind: '$startDates'
             },
             {
-                $match: { 
+                $match: {
                     startDates: {
                         $gte: new Date(`${year}-01-01`),
                         $lte: new Date(`${year}-12-31`)
@@ -193,12 +194,12 @@ exports.getMonthlyPlan = async (req, res, next) => {
                     _id: { $month: '$startDates' },
                     numTourStarts: { $sum: 1 },
                     //to store the details in array
-                    tours: {$push: '$name'}
+                    tours: { $push: '$name' }
                 }
             },
             {
                 //adding new fields
-                $addFields: {month: '$_id'}
+                $addFields: { month: '$_id' }
             },
             {
                 //to make _id no longer show up
@@ -208,7 +209,7 @@ exports.getMonthlyPlan = async (req, res, next) => {
             },
             {
                 //sorting in desc order
-                $sort: { 
+                $sort: {
                     numTourStarts: -1
                 }
             }
