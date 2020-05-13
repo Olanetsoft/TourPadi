@@ -146,7 +146,7 @@ exports.getToursStats = async (req, res, next) => {
                     avgRating: { $avg: '$ratingsAverage' },
                     avgPrice: { $avg: '$price' },
                     minPrice: { $min: '$price' },
-                    maxPrice: { $max: '$price' },
+                    maxPrice: { $max: '$price' }
                 }
             },
             {
@@ -164,7 +164,66 @@ exports.getToursStats = async (req, res, next) => {
 
     } catch (err) {
         res.status(404).json({
-            status: "failed to delete",
+            status: "failed to get Stats",
+            message: err
+        });
+    };
+};
+
+//get monthly plan analysis
+exports.getMonthlyPlan = async (req, res, next) => {
+    try {
+        const year = req.params.year * 1; //2021
+
+        const plan = await Tour.aggregate([
+            {
+                $unwind: '$startDates'
+            },
+            {
+                $match: { 
+                    startDates: {
+                        $gte: new Date(`${year}-01-01`),
+                        $lte: new Date(`${year}-12-31`)
+                    }
+                }
+            },
+            {
+                //group by startDates
+                $group: {
+                    _id: { $month: '$startDates' },
+                    numTourStarts: { $sum: 1 },
+                    //to store the details in array
+                    tours: {$push: '$name'}
+                }
+            },
+            {
+                //adding new fields
+                $addFields: {month: '$_id'}
+            },
+            {
+                //to make _id no longer show up
+                $project: {
+                    _id: 0
+                }
+            },
+            {
+                //sorting in desc order
+                $sort: { 
+                    numTourStarts: -1
+                }
+            }
+        ]);
+
+        res.status(200).json({
+            status: 'success 🤩',
+            data: {
+                plan
+            }
+        });
+
+    } catch (err) {
+        res.status(404).json({
+            status: "failed to get monthly plan",
             message: err
         });
     };
