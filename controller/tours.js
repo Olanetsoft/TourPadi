@@ -2,10 +2,8 @@ const fs = require('fs');
 //importing tour model
 const Tour = require('./../models/tourModel');
 
-
-// //Reading the file from a data
-// const theTours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`))
-
+//importing apiFeatures class
+const APIFeatures = require('./../utils/apiFeatures')
 
 //middleware
 exports.aliasTopTours = (req, res, next) => {
@@ -15,76 +13,6 @@ exports.aliasTopTours = (req, res, next) => {
     next();
 };
 
-
-//creating a class for api feature
-class APIFeatures {
-    constructor(query, queryString) {
-        this.query = query;
-        this.queryString = queryString;
-    }
-
-    //Filtering
-    filter() {
-
-        //TO BUILD THE QUERY
-        //1) Filtering process
-        const queryObj = { ...this.queryString };
-        const excludedFields = ['page', 'sort', 'limit', 'fields'];
-        excludedFields.forEach(el => delete queryObj[el]);
-
-
-        //1b) Advanced filtering
-        let queryStr = JSON.stringify(queryObj);
-        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
-        console.log(JSON.parse(queryStr));
-
-        this.query = this.query.find(JSON.parse(queryStr));
-
-        //this is to return the entire object
-        return this;
-    };
-
-    //sorting
-    sort() {
-        if (this.queryString.sort) {
-            const sortBy = this.queryString.sort.split(",").join(" ");
-            this.query = this.query.sort(sortBy)
-        } else {
-            this.query = this.query.sort('-createdAt');
-        };
-
-        //this is to return the entire object
-        return this;
-    };
-
-    //Limiting field
-    limitFields() {
-        if (this.queryString.fields) {
-            const fields = this.queryString.fields.split(",").join(" ");
-            this.query = this.query.select(fields)
-        } else {
-            this.query = this.query.select('-__v');
-        };
-
-        //this is to return the entire object
-        return this;
-    };
-
-    //pagination
-    paginate() {
-        //get the page
-        const page = this.queryString.page * 1 || 1;
-        const limit = this.queryString.limit * 1 || 100;
-        const skip = (page - 1) * limit;
-
-        this.query = this.query.skip(skip).limit(limit);
-
-        //this is to return the entire object
-        return this;
-    }
-
-
-};
 
 //create tour model
 exports.createTour = async (req, res, next) => {
@@ -112,57 +40,9 @@ exports.createTour = async (req, res, next) => {
 
 }
 
-
-
 //Gets all the tours
 exports.getTours = async (req, res, next) => {
     try {
-        //creating a copy
-        //TO BUILD THE QUERY
-        //1) Filtering process
-        // const queryObj = { ...req.query };
-        // const excludedFields = ['page', 'sort', 'limit', 'fields'];
-        // excludedFields.forEach(el => delete queryObj[el]);
-
-
-        // //1b) Advanced filtering
-        // let queryStr = JSON.stringify(queryObj);
-        // queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
-        // console.log(JSON.parse(queryStr));
-
-        // let query = Tour.find(JSON.parse(queryStr));
-
-
-        //2) Sorting
-        // if (req.query.sort) {
-        //     const sortBy = req.query.sort.split(",").join(" ");
-        //     query = query.sort(sortBy)
-        // } else {
-        //     query = query.sort('-createdAt');
-        // };
-
-
-        // //3) field limiting
-        // if (req.query.fields) {
-        //     const fields = req.query.fields.split(",").join(" ");
-        //     query = query.select(fields)
-        // } else {
-        //     query = query.select('-__v');
-        // };
-
-
-        //4) Pagination
-        // //get the page
-        // const page = req.query.page * 1 || 1;
-        // const limit = req.query.limit * 1 || 100;
-        // const skip = (page - 1) * limit;
-        // query = query.skip(skip).limit(limit);
-
-        // if (req.query.page) {
-        //     const numTours = await Tour.countDocuments();
-        //     if (skip >= numTours) throw new Error("This page doesn't exist")
-        // };
-
 
         //EXECUTE THE QUERY_OBJ
         const features = new APIFeatures(Tour.find(), req.query)
@@ -209,7 +89,6 @@ exports.getSingleTour = async (req, res, next) => {
     }
 
 };
-
 
 //update a single tour
 exports.updateTour = async (req, res, next) => {
