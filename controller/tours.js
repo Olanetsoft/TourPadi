@@ -6,6 +6,16 @@ const Tour = require('./../models/tourModel');
 // //Reading the file from a data
 // const theTours = JSON.parse(fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`))
 
+
+//middleware
+exports.aliasTopTours = (req, res, next) => {
+    req.query.limit = '5';
+    req.query.sort = '-ratingsAverage,price';
+    req.query.fields = 'name,price,ratingsAverage,summary,difficultly';
+    next();
+};
+
+
 //create tour model
 exports.createTour = async (req, res, next) => {
     try {
@@ -59,7 +69,7 @@ exports.getTours = async (req, res, next) => {
             query = query.sort(sortBy)
         } else {
             query = query.sort('-createdAt');
-        }
+        };
 
 
         //3) field limiting
@@ -68,7 +78,7 @@ exports.getTours = async (req, res, next) => {
             query = query.select(fields)
         } else {
             query = query.select('-__v');
-        }
+        };
 
 
         //4) Pagination
@@ -81,9 +91,7 @@ exports.getTours = async (req, res, next) => {
         if(req.query.page){
             const numTours = await Tour.countDocuments();
             if(skip >= numTours) throw new Error("This page doesn't exist")
-        }
-
-
+        };
 
         //EXECUTE THE QUERY_OBJ
         const allTours = await query;
