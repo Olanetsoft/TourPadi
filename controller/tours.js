@@ -128,3 +128,44 @@ exports.deleteTour = async (req, res, next) => {
     };
 
 };
+
+
+//using aggregation pipeline
+exports.getToursStats = async (req, res, next) => {
+    try {
+        const stats = await Tour.aggregate([
+            {
+                //filtering a certain countDocuments
+                $match: { ratingsAverage: { $gte: 4.5 } }
+            },
+            {
+                $group: {
+                    _id: { $toUpper: '$difficulty' },
+                    numOfTours: { $sum: 1 },
+                    numRatings: { $sum: '$ratingsQuantity' },
+                    avgRating: { $avg: '$ratingsAverage' },
+                    avgPrice: { $avg: '$price' },
+                    minPrice: { $min: '$price' },
+                    maxPrice: { $max: '$price' },
+                }
+            },
+            {
+                //1 added is for ascending
+                $sort: { avgPrice: 1 }
+            }
+        ]);
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                stats
+            }
+        });
+
+    } catch (err) {
+        res.status(404).json({
+            status: "failed to delete",
+            message: err
+        });
+    };
+};
