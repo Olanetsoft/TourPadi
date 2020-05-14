@@ -12,6 +12,7 @@ if (process.env.NODE_ENV === 'development') {
 //Middleware registered
 app.use(express.json());
 
+
 //registering a middleware for static files
 app.use(express.static(`${__dirname}/public`));
 
@@ -19,12 +20,19 @@ app.use(express.static(`${__dirname}/public`));
 const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
 
-
 //registering the route middleware
 app.use(tourRoutes);
 //app.use(usersRoutes);
 
 
+
+//Implement a handler to handle all non-existing route
+app.all('*', (req, res, next) => {
+    res.status(404).json({
+        status: 'Failed !',
+        message: `Sorry can't find ${req.originalUrl} on the server😫😫`
+    })
+});
 
 
 module.exports = app;
