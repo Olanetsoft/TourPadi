@@ -44,3 +44,28 @@
         //     if (skip >= numTours) throw new Error("This page doesn't exist")
         // };
 
+
+Type of mongoose Middleware
+1. document e.g
+ //Run before save document
+ tourSchema.pre('save', function(next){
+  next();
+});
+
+//Run after save document
+tourSchema.post('save', function(doc, next){
+next();
+});
+
+2. query e.g
+  //Run before find query
+  tourSchema.pre('/^find/', function(next){
+   next();
+});
+
+//Run after find query
+tourSchema.post('/^find/', function(docs, next){
+next();
+});
+
+3. aggregate e.g
