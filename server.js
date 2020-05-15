@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
+
+//Handling uncaught exceptions globally
+process.on('uncaughtException', err => {
+    console.log('UNCAUGHT EXCEPTION 😶');
+});
+
 //using the dotenv variable
 dotenv.config({ path: './config.env' });
 
@@ -25,9 +31,4 @@ app.listen(PORT, () => {
 //Handling unhandled rejection globally
 process.on('unhandledRejection', err => {
     console.log(err.name, err.message);
-});
-
-//Handling uncaught exceptions globally
-process.on('uncaughtException', err => {
-    console.log('UNCAUGHT EXCEPTION 😶');
 });
