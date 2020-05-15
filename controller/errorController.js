@@ -6,7 +6,26 @@ const handleCastErrorDB = err => {
     //get the message sent by mongo
     const message = `Invalid ${err.path}: ${err.value}.`;
     return new AppError(message, 400);
-}
+};
+
+
+//A function that handles duplicate field
+const handleDuplicateFieldDB = err => {
+    const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+    //get the message sent by mongo  driver
+    const message = `Duplicate field value${value}. Please use another value.`;
+    return new AppError(message, 400);
+};
+
+
+//A function that handles duplicate field
+const handleValidationErrorDB = err => {
+    const errors = object.values(err.errors).map(el => el.message);
+
+    //get the message sent by mongo  driver
+    const message = `Invalid input data. ${errors.join('. ')}`;
+    return new AppError(message, 400);
+};
 
 
 //Send error for development env
@@ -58,7 +77,11 @@ module.exports = (err, req, res, next) => {
         let error = {...err};
 
         //Check if error is equal to cast error
-        if(err.name === 'CastError') error = handleCastErrorDB(error)
+        if(err.name === 'CastError') error = handleCastErrorDB(error);
+        //Check if error is equal to 11000
+        if(err.code === 11000) error = handleDuplicateFieldDB(error);
+        //Check if error is equal to validationError
+        if(err.name === 'ValidationError') error = handleValidationErrorDB(error);
         sendProdError(error, res);
     };
 };
