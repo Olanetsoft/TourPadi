@@ -32,15 +32,11 @@ exports.createTour = async (req, res, next) => {
 
         })
     } catch (err) {
-
-         //return error to check if tour is created
-         next(new AppError('Cant Create Tour', 400));
-
-        // res.status(400).json({
-        //     status: 'failed',
-        //     message: err
-        // })
-        // console.log("FIle not created: " + err);
+        res.status(400).json({
+            status: 'failed',
+            message: err
+        })
+        //console.log("FIle not created: " + err);
     };
 
 };
@@ -69,7 +65,7 @@ exports.getTours = async (req, res, next) => {
         });
     } catch (err) {
 
-         next();
+        next();
         // res.status(404).json({
         //     status: "failed",
         //     message: err
@@ -83,7 +79,7 @@ exports.getSingleTour = async (req, res, next) => {
     try {
         const singleTour = await Tour.findById(req.params.id);
         //Or Tour.findOne({_id: req.params.id})
-        
+
         res.status(200).json({
             status: 'success',
             data: {
@@ -116,8 +112,8 @@ exports.updateTour = async (req, res, next) => {
             }
         });
     } catch (err) {
-         //return error to check if tour is updated
-         next(new AppError('Unable to Update Tour', 404));
+        //return error to check if tour is updated
+        next(new AppError('Unable to Update Tour', 404));
         // res.status(404).json({
         //     status: "failed",
         //     message: err
@@ -135,8 +131,8 @@ exports.deleteTour = async (req, res, next) => {
             data: null
         });
     } catch (err) {
-         //return error to check if tour was deleted
-         next(new AppError(`Unable to delete Tour with ID: ${req.params.id}`, 404));
+        //return error to check if tour was deleted
+        next(new AppError(`Unable to delete Tour with ID: ${req.params.id}`, 404));
         // res.status(404).json({
         //     status: "failed to delete",
         //     message: err
@@ -179,8 +175,8 @@ exports.getToursStats = async (req, res, next) => {
         });
 
     } catch (err) {
-       //return error to check if tour stats exist
-       next(new AppError('Unable to get all Stats', 404));
+        //return error to check if tour stats exist
+        next(new AppError('Unable to get all Stats', 404));
 
         // res.status(404).json({
         //     status: "failed to get Stats",
@@ -241,7 +237,7 @@ exports.getMonthlyPlan = async (req, res, next) => {
         });
 
     } catch (err) {
-         //return error to check if monthly plan exist
+        //return error to check if monthly plan exist
         next(new AppError('No monthly plan for the request', 404));
 
         // res.status(404).json({

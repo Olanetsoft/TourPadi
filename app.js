@@ -31,7 +31,6 @@ app.use(tourRoutes);
 //app.use(usersRoutes);
 
 
-
 //Implement a handler to handle all non-existing route
 app.all('*', (req, res, next) => {
     // const err = new Error(`Sorry can't find ${req.originalUrl} on the server😫😫`);
