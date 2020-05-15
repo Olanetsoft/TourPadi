@@ -13,13 +13,16 @@ mongoose.connect(process.env.DATABASE, {
     useFindAndModify: false
 }).then(result => {
     console.log('DB Connected successfully🎉')
-}).catch(err => {
-    console.log(err)
-});
-
+})
 
 // console.log(process.env);
 const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`App running on port ${PORT}`);
+});
+
+
+//Handling unhandled rejection globally
+process.on('unhandledRejection', err => {
+    console.log(err.name, err.message);
 });
