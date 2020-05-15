@@ -64,10 +64,11 @@ exports.getTours = async (req, res, next) => {
             }
         });
     } catch (err) {
-        res.status(404).json({
-            status: "failed",
-            message: err
-        });
+        next(err);
+        // res.status(404).json({
+        //     status: "failed",
+        //     message: err
+        // });
     }
 }
 
@@ -84,10 +85,11 @@ exports.getSingleTour = async (req, res, next) => {
             }
         });
     } catch (err) {
-        res.status(404).json({
-            status: "failed",
-            message: err
-        });
+        next(err);
+        // res.status(404).json({
+        //     status: "failed",
+        //     message: err
+        // });
     }
 
 };
@@ -106,10 +108,11 @@ exports.updateTour = async (req, res, next) => {
             }
         });
     } catch (err) {
-        res.status(404).json({
-            status: "failed",
-            message: err
-        });
+        next(err);
+        // res.status(404).json({
+        //     status: "failed",
+        //     message: err
+        // });
     };
 
 };
@@ -123,10 +126,11 @@ exports.deleteTour = async (req, res, next) => {
             data: null
         });
     } catch (err) {
-        res.status(404).json({
-            status: "failed to delete",
-            message: err
-        });
+        next(err);
+        // res.status(404).json({
+        //     status: "failed to delete",
+        //     message: err
+        // });
     };
 
 };
@@ -165,10 +169,11 @@ exports.getToursStats = async (req, res, next) => {
         });
 
     } catch (err) {
-        res.status(404).json({
-            status: "failed to get Stats",
-            message: err
-        });
+        next(err);
+        // res.status(404).json({
+        //     status: "failed to get Stats",
+        //     message: err
+        // });
     };
 };
 
@@ -224,9 +229,10 @@ exports.getMonthlyPlan = async (req, res, next) => {
         });
 
     } catch (err) {
-        res.status(404).json({
-            status: "failed to get monthly plan",
-            message: err
-        });
+        next(err);
+        // res.status(404).json({
+        //     status: "failed to get monthly plan",
+        //     message: err
+        // });
     };
 };
