@@ -1,3 +1,14 @@
+//import the AppError class
+const AppError = require('./../utils/appError');
+
+//A function that handles cast error
+const handleCastErrorDB = err => {
+    //get the message sent by mongo
+    const message = `Invalid ${err.path}: ${err.value}.`;
+    return new AppError(message, 400);
+}
+
+
 //Send error for development env
 const sendDevError = (err, res)=> {
     res.status(err.statusCode).json({
@@ -32,7 +43,7 @@ const sendProdError = (err, res) => {
 };
 
 
-//export moodule to handle global error
+//export module to handle global error
 module.exports = (err, req, res, next) => {
     //gets the statusCode
     err.statusCode = err.statusCode || 500;
@@ -43,6 +54,11 @@ module.exports = (err, req, res, next) => {
         sendDevError(err, res);
     }
     else if(process.env.NODE_ENV == 'production'){
-      sendProdError(err, res);
+        //make a copy of the errors
+        let error = {...err};
+
+        //Check if error is equal to cast error
+        if(err.name === 'CastError') error = handleCastErrorDB(error)
+        sendProdError(error, res);
     };
 };
