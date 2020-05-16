@@ -18,7 +18,7 @@ exports.signup = async (req, res, next) => {
         //using the jwt to create a signature 
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRATION
-        })
+        });
 
         res.status(201).json({
             status: 'Success',
@@ -33,7 +33,7 @@ exports.signup = async (req, res, next) => {
             status: 'failed',
             message: err
         })
-    }
+    };
 
 };
 
@@ -53,12 +53,15 @@ exports.login = async (req, res, next) => {
         //to compare the entered password and the userPassword
         //const correct = await user.correctPassword(password, user.password);
 
-        if (!user || !await user.correctPassword(password, user.password)) {
+        if (!user || !(await user.correctPassword(password, user.password))) {
             return next(new AppError('Incorrect email or password! 🙄', 401));
         }
 
         //3.)If everything is fine then send back token to client
-        const token = '';
+        //using the jwt to create a signature 
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRATION
+        });
 
         res.status(200).json({
             status: 'success',

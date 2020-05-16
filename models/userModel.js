@@ -63,7 +63,7 @@ userSchema.pre('save', async function (next) {
 
 
 //creating an instance method that is going to be available on all document on a certain collection
-userSchema.method.correctPassword = async function (
+userSchema.methods.correctPassword = async function (
     candidatePassword,
     userPassword
 ) {
