@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please confirm your password 😥'],
 
-        //to confirm and compare the password and the confirmPassword
+        //To confirm and compare the password and the confirmPassword
         //This only work on save!!!
         validate: {
             validator: function (el) {
