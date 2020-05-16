@@ -26,6 +26,14 @@ app.use(express.static(`${__dirname}/public`));
 const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
 
+
+//a middleware to test
+app.use((req, res, next)=> {
+    //console.log(req.headers);
+    next();
+});
+
+
 //registering the route middleware
 app.use(tourRoutes);
 app.use(usersRoutes);

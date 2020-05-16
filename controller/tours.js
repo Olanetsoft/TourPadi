@@ -4,8 +4,12 @@ const Tour = require('./../models/tourModel');
 
 //importing apiFeatures class
 const APIFeatures = require('./../utils/apiFeatures');
+
 //import AppError
 const AppError = require('./../utils/appError')
+
+
+
 
 //middleware to query top 5 cheap tours
 exports.aliasTopTours = (req, res, next) => {

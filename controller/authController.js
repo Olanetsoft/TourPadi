@@ -69,7 +69,33 @@ exports.login = async (req, res, next) => {
         });
 
     } catch{
-
+        next(new AppError('Unable to login 🙄', 400))
     }
 
+};
+
+//protecting the route against not login user
+exports.protect = async (req, res, next) => {
+    try {
+        let token;
+
+        //1.) Get token and check if it exist
+        if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+            token = req.headers.authorization.split(' ')[1];
+        }
+        //Check if no token in the header and return 401 for non authorized
+        if(!token){
+            return next(new AppError('Please Login to get access 😒', 401))
+        }
+
+        //2.) Verifying the token
+
+        //3.) check if user exists
+
+        //4.) check if user changed password after the token was issued
+
+        next();
+    } catch (err) {
+
+    }
 };
