@@ -1,3 +1,6 @@
+//get the promisify methods
+const { promisify } = require('util');
+
 //using the json web token
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
@@ -80,15 +83,16 @@ exports.protect = async (req, res, next) => {
         let token;
 
         //1.) Get token and check if it exist
-        if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+        if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             token = req.headers.authorization.split(' ')[1];
         }
         //Check if no token in the header and return 401 for non authorized
-        if(!token){
+        if (!token) {
             return next(new AppError('Please Login to get access 😒', 401))
         }
 
-        //2.) Verifying the token
+        //2.) Verifying the token and use promisify function by node
+        const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
         //3.) check if user exists
 
