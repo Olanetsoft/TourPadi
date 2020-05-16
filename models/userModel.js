@@ -44,13 +44,19 @@ const userSchema = new mongoose.Schema({
 
 //encrypting password
 //using document middleware
-userSchema.pre('save', function (next) {
+userSchema.pre('save', async function (next) {
+    //only run the function if password was modified
     if (!this.isModified('password')) {
         return next();
-    }
-
+    };
+    
     //taking the current password in this document
-    this.password = bcrypt.hash(this.password, 12);
+    this.password = await bcrypt.hash(this.password, 12);
+
+    //deleting the passwordConfirm field because we don't want it to persist in the db
+    this.passwordConfirm = undefined;
+
+    next();
 });
 
 
