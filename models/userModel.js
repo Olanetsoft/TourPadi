@@ -51,7 +51,7 @@ userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {
         return next();
     };
-    
+
     //taking the current password in this document
     this.password = await bcrypt.hash(this.password, 12);
 
@@ -61,6 +61,14 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
+
+//creating an instance method that is going to be available on all document on a certain collection
+userSchema.method.correctPassword = async function (
+    candidatePassword,
+    userPassword
+) {
+    return await bcrypt.compare(candidatePassword, userPassword);
+}
 
 
 //define the Tour Model

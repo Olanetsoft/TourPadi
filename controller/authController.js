@@ -38,22 +38,35 @@ exports.signup = async (req, res, next) => {
 };
 
 //handler for logging in user
-exports.login = (req, res, next) => {
-    const { email, password } = req.body;
+exports.login = async (req, res, next) => {
+    try {
+        const { email, password } = req.body;
 
-    //1.) Check if email and password exist
-    if (!email || !password) {
-        return next(new AppError('Please provide email and password! 🙄', 400));
+        //1.) Check if email and password exist
+        if (!email || !password) {
+            return next(new AppError('Please provide email and password! 🙄', 400));
+        };
+
+        //2.) Check if user exists && password is correct
+        const user = await User.findOne({ email }).select('+password');
+
+        //to compare the entered password and the userPassword
+        //const correct = await user.correctPassword(password, user.password);
+
+        if (!user || !await user.correctPassword(password, user.password)) {
+            return next(new AppError('Incorrect email or password! 🙄', 401));
+        }
+
+        //3.)If everything is fine then send back token to client
+        const token = '';
+
+        res.status(200).json({
+            status: 'success',
+            token
+        });
+
+    } catch{
+
     }
 
-    //2.) Check if user exists && password is correct
-    const user = User.findOne({email});
-
-    //3.)If everything is fine then send back token to client
-    const token = '';
-
-    res.status(200).json({
-        status: 'success',
-        token
-    });
 };
