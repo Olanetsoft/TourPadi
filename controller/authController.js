@@ -93,6 +93,7 @@ exports.protect = async (req, res, next) => {
 
         //2.) Verifying the token and use promisify function by node
         const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+        console.log(decoded)
 
         //3.) check if user exists
 

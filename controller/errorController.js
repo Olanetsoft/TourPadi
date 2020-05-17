@@ -1,6 +1,14 @@
 //import the AppError class
 const AppError = require('./../utils/appError');
 
+//A function that handles expired json web token error
+const handleJWTExpiredError = err => new AppError('Your token has expired! Please login again', 401);
+
+
+//A function that handles json web token error
+const handleJWTError = err => new AppError('Invalid Token. Please login again!', 401)
+
+
 //A function that handles cast error
 const handleCastErrorDB = err => {
     //get the message sent by mongo
@@ -29,7 +37,7 @@ const handleValidationErrorDB = err => {
 
 
 //Send error for development env
-const sendDevError = (err, res)=> {
+const sendDevError = (err, res) => {
     res.status(err.statusCode).json({
         status: err.status,
         error: err,
@@ -41,14 +49,14 @@ const sendDevError = (err, res)=> {
 //send error for production env
 const sendProdError = (err, res) => {
     //Operational, trusted error: send message to client
-    if(err.isOperational){
+    if (err.isOperational) {
         res.status(err.statusCode).json({
             status: err.status,
             message: err.message
         });
     }
     //programming error, Don't leak error details
-    else{
+    else {
         //1) Log error
         console.error('ERROR ☹', err);
 
@@ -58,7 +66,7 @@ const sendProdError = (err, res) => {
             message: 'Something went wrong !'
         });
     };
-    
+
 };
 
 
@@ -69,19 +77,25 @@ module.exports = (err, req, res, next) => {
     //gets the status
     err.status = err.status || 'error';
 
-    if(process.env.NODE_ENV == 'development'){
+    if (process.env.NODE_ENV == 'development') {
         sendDevError(err, res);
     }
-    else if(process.env.NODE_ENV == 'production'){
+    else if (process.env.NODE_ENV == 'production') {
         //make a copy of the errors
-        let error = {...err};
+        let error = { ...err };
 
         //Check if error is equal to cast error
-        if(err.name === 'CastError') error = handleCastErrorDB(error);
+        if (err.name === 'CastError') error = handleCastErrorDB(error);
         //Check if error is equal to 11000
-        if(err.code === 11000) error = handleDuplicateFieldDB(error);
+        if (err.code === 11000) error = handleDuplicateFieldDB(error);
         //Check if error is equal to validationError
-        if(err.name === 'ValidationError') error = handleValidationErrorDB(error);
+        if (err.name === 'ValidationError') error = handleValidationErrorDB(error);
+        //Check if error is equal to JsonWebTokenError
+        if (error.name === 'JsonWebTokenError') error = handleJWTError(error);
+        //Check if error is equal to TokenExpiredError
+        if (error.name === 'TokenExpiredError') error = handleJWTExpiredError(error);
+
+
         sendProdError(error, res);
     };
 };

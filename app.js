@@ -28,7 +28,7 @@ const usersRoutes = require('./routes/users');
 
 
 //a middleware to test
-app.use((req, res, next)=> {
+app.use((req, res, next) => {
     //console.log(req.headers);
     next();
 });
