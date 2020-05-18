@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['user', 'guide', 'lead-guide', 'admin'],
-        default: 'user' 
+        default: 'user'
     },
     password: {
         type: String,
@@ -83,9 +83,9 @@ userSchema.methods.correctPassword = async function (
 
 
 //check if user changed password after the token was issued
-userSchema.methods.changedPasswordAfter = function(JWTTimestamp){
-    if(this.passwordChangedAt){
-        const changedTimeStamp = parseInt(this.passwordChangedAt.getTime()/1000, 10);
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+    if (this.passwordChangedAt) {
+        const changedTimeStamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
 
         //console.log(this.passwordChangedAt, JWTTimestamp);
         return JWTTimestamp < changedTimeStamp; //100 < 200
@@ -97,19 +97,16 @@ userSchema.methods.changedPasswordAfter = function(JWTTimestamp){
 
 
 //To create password reset token
-userSchema.methods.createPasswordResetToken = function(){
-    console.log("i entered")
+userSchema.methods.createPasswordResetToken = function () {
     const resetToken = crypto.randomBytes(32).toString('hex');
-    console.log("i entered 2")
     //using the crypto to create hash value with the resetToken into passwordResetToken
-    
+
     this.passwordResetToken = crypto
-      .createHash("sha256")
-      .update(resetToken)
-      .digest('hex')
+        .createHash("sha256")
+        .update(resetToken)
+        .digest('hex')
     //this.passwordResetToken = crypto.createHash('sha56').update(resetToken).digest('hex');
-    console.log("i entered 3")
-    console.log({resetToken}, this.passwordResetToken);
+    console.log({ resetToken }, this.passwordResetToken);
 
     //setting the password expire time 
     this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
