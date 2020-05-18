@@ -15,6 +15,7 @@ exports.signup = async (req, res, next) => {
         const newUser = await User.create({
             name: req.body.name,
             email: req.body.email,
+            role: req.body.role,
             password: req.body.password,
             passwordConfirm: req.body.passwordConfirm,
             passwordChangedAt: req.body.passwordChangedAt
@@ -124,5 +125,19 @@ exports.protect = async (req, res, next) => {
         //     message: err
         // });
 
+    }
+};
+
+
+//To restrict certain route for example to check user role before delete action
+exports.restrictTo = (...roles) => {
+    return (req, res, next) => {
+
+        //roles ['admin', 'lead-guide']
+        //get the user role from the protect middleware where we passed req.user
+        if(!roles.includes(req.user.role)){
+            return next(new AppError('You do not have permission to perform this action', 403))
+        }
+        next();
     }
 };

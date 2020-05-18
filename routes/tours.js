@@ -20,7 +20,7 @@ router.post('/api/v1/tour', toursController.createTour);
 
 router.patch('/api/v1/tour/:id', toursController.updateTour);
 
-router.delete('/api/v1/tour/:id', toursController.deleteTour);
+router.delete('/api/v1/tour/:id', authController.protect, authController.restrictTo('admin', 'lead-guide'), toursController.deleteTour);
 
 router.get('/api/v1/tours/:id', toursController.getSingleTour);
 
