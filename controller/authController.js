@@ -1,3 +1,6 @@
+//requiring crypto
+const crypto = require('crypto');
+
 //get the promisify methods
 const { promisify } = require('util');
 
@@ -193,6 +196,10 @@ exports.forgotPassword = async (req, res, next) => {
 
     } catch (err) {
         //next(new AppError('Forgot password failed 😢', 404))
+        res.status(400).json({
+            status: 'failed',
+            message: err
+        });
     }
 
 
@@ -201,5 +208,52 @@ exports.forgotPassword = async (req, res, next) => {
 
 //Creating reset password handler
 exports.resetPassword = async (req, res, next) => {
+    try {
+        //1) Get user base on the tokens
+        const hashTheTokenFromParams = crypto
+            .createHash("sha256")
+            .update(req.params.token)
+            .digest('hex');
 
+        //Get the user base on the token gotten from the url params
+        const user = await User.findOne({
+            passwordResetToken: hashTheTokenFromParams,
+            passwordResetExpires: { $gt: Date.now() }
+        });
+
+        //2) set the new password if token has not expired and there's a user
+        if (!user) {
+            return next(new AppError('Token is invalid or has Expired', 400))
+        };
+        user.password = req.body.password;
+        user.passwordConfirm = req.body.passwordConfirm;
+        user.passwordResetToken = undefined;
+        user.passwordResetExpires = undefined;
+
+        //now let save it
+        await user.save();
+
+        //3) Update changePasswordAt properties for the current user
+
+        
+
+        //4) Log the user in and send JWT
+        //using the jwt to create a signature 
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRATION
+        });
+
+        res.status(201).json({
+            status: 'Success',
+            token
+        });
+
+
+    }
+    catch (err) {
+        res.status(400).json({
+            status: 'failed ☹☹☹☹☹',
+            message: err
+        });
+    }
 };

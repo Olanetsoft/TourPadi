@@ -73,6 +73,12 @@ userSchema.pre('save', async function (next) {
 });
 
 
+//To update the changePasswordAt before save a document
+userSchema.pre('save', function(next){
+    
+});
+
+
 //creating an instance method that is going to be available on all document on a certain collection
 userSchema.methods.correctPassword = async function (
     candidatePassword,

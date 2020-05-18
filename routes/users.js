@@ -9,7 +9,7 @@ const userController = require('../controller/users');
 
 router.post('/api/v1/users/forgotPassword', authController.forgotPassword);
 
-router.patch('/api/v1/users/resetPassword/:id', authController.resetPassword);
+router.patch('/api/v1/users/resetPassword/:token', authController.resetPassword);
 
 router.post('/api/v1/users/login', authController.login);
 
