@@ -75,7 +75,14 @@ userSchema.pre('save', async function (next) {
 
 //To update the changePasswordAt before save a document
 userSchema.pre('save', function(next){
-    
+    //password not modified or is new
+    if(!this.isModified('password') || this.isNew){
+        return next()
+    };
+
+    //this put the passwordChangedAt 1sec in the past
+    this.passwordChangedAt = Date.now() - 1000;
+    next();
 });
 
 
