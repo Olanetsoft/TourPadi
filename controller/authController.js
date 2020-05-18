@@ -135,9 +135,42 @@ exports.restrictTo = (...roles) => {
 
         //roles ['admin', 'lead-guide']
         //get the user role from the protect middleware where we passed req.user
-        if(!roles.includes(req.user.role)){
+        if (!roles.includes(req.user.role)) {
             return next(new AppError('You do not have permission to perform this action', 403))
         }
         next();
     }
+};
+
+
+//Creating forgot password handler
+exports.forgotPassword = async (req, res, next) => {
+
+    try {
+        //1) Get user base on the posted email
+        const user = await User.findOne({ email: req.body.email });
+        //verify if the user exists
+        if(!user){
+            return next(new AppError('There is no such user with the email address.', 404))
+        };
+
+        //2) Generate the random reset token
+        const resetToken = user.createPasswordResetToken();
+        //set validateBeforeSave to false to deactivate all the validator in the schema
+        await user.save({validateBeforeSave: false});
+
+
+        //3)send it to user email
+
+    } catch (err) {
+        // next(new AppError('FOrgot password failed 😢', 404))
+    }
+
+
+};
+
+
+//Creating reset password handler
+exports.resetPassword = async (req, res, next) => {
+
 };
