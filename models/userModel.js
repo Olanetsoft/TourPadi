@@ -74,9 +74,9 @@ userSchema.pre('save', async function (next) {
 
 
 //To update the changePasswordAt before save a document
-userSchema.pre('save', function(next){
+userSchema.pre('save', function (next) {
     //password not modified or is new
-    if(!this.isModified('password') || this.isNew){
+    if (!this.isModified('password') || this.isNew) {
         return next()
     };
 

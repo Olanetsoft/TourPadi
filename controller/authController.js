@@ -234,9 +234,6 @@ exports.resetPassword = async (req, res, next) => {
         await user.save();
 
         //3) Update changePasswordAt properties for the current user
-
-        
-
         //4) Log the user in and send JWT
         //using the jwt to create a signature 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -256,4 +253,40 @@ exports.resetPassword = async (req, res, next) => {
             message: err
         });
     }
+};
+
+//update password for only login user
+exports.updatePassword = async (req, res, next) => {
+    try {
+        //1) Get the user from the collection
+        const user = await User.findById(req.user.id).select('+password');
+
+        //2) check if posted password is correct
+        if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
+            return next(new AppError('Your current password is wrong! 🙄', 401));
+        };
+
+
+        //3) if password is correct, update
+        user.password = req.body.password;
+        user.passwordConfirm = req.body.passwordConfirm;
+        await user.save();
+
+        //4) Log user in, send jwt
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRATION
+        });
+
+        res.status(201).json({
+            status: 'Success',
+            token
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 'failed...',
+            message: err
+        });
+    };
+
+
 };
