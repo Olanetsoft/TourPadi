@@ -2,11 +2,11 @@
 const AppError = require('./../utils/appError');
 
 //A function that handles expired json web token error
-const handleJWTExpiredError = err => new AppError('Your token has expired! Please login again', 401);
+const handleJWTExpiredError = () => new AppError('Your token has expired! Please login again', 401);
 
 
 //A function that handles json web token error
-const handleJWTError = err => new AppError('Invalid Token. Please login again!', 401)
+const handleJWTError = () => new AppError('Invalid Token. Please login again!', 401)
 
 
 //A function that handles cast error
@@ -77,10 +77,10 @@ module.exports = (err, req, res, next) => {
     //gets the status
     err.status = err.status || 'error';
 
-    if (process.env.NODE_ENV == 'development') {
+    if (process.env.NODE_ENV === 'development') {
         sendDevError(err, res);
     }
-    else if (process.env.NODE_ENV == 'production') {
+    else if (process.env.NODE_ENV === 'production') {
         //make a copy of the errors
         let error = { ...err };
 
@@ -91,9 +91,9 @@ module.exports = (err, req, res, next) => {
         //Check if error is equal to validationError
         if (err.name === 'ValidationError') error = handleValidationErrorDB(error);
         //Check if error is equal to JsonWebTokenError
-        if (error.name === 'JsonWebTokenError') error = handleJWTError(error);
+        if (error.name === 'JsonWebTokenError') error = handleJWTError();
         //Check if error is equal to TokenExpiredError
-        if (error.name === 'TokenExpiredError') error = handleJWTExpiredError(error);
+        if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
 
 
         sendProdError(error, res);

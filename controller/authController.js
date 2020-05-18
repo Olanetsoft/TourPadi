@@ -7,6 +7,7 @@ const User = require('./../models/userModel');
 //importing error class
 const AppError = require('./../utils/appError');
 
+
 //signup user
 exports.signup = async (req, res, next) => {
     try {
@@ -85,10 +86,12 @@ exports.protect = async (req, res, next) => {
         //1.) Get token and check if it exist
         if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             token = req.headers.authorization.split(' ')[1];
+
         }
+        console.log(token)
         //Check if no token in the header and return 401 for non authorized
         if (!token) {
-            return next(new AppError('Please Login to get access 😒', 401))
+            return next(new AppError('Please Login to get access 😒', 401));
         }
 
         //2.) Verifying the token and use promisify function by node
@@ -101,6 +104,11 @@ exports.protect = async (req, res, next) => {
 
         next();
     } catch (err) {
-
+        next(new AppError('Token or Authorization failed 😒', 401));
+        // res.status(400).json({
+        //     status: 'failed',
+        //     message: err
+        // });
+        
     }
 };
