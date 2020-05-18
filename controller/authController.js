@@ -16,7 +16,8 @@ exports.signup = async (req, res, next) => {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            passwordConfirm: req.body.passwordConfirm
+            passwordConfirm: req.body.passwordConfirm,
+            passwordChangedAt: req.body.passwordChangedAt
         });
 
         //using the jwt to create a signature 
@@ -99,19 +100,23 @@ exports.protect = async (req, res, next) => {
 
 
         //3.) check if user still exists
-        const freshUser = await User.findById(decoded.id);
-        if (!freshUser) {
+        const currentUser = await User.findById(decoded.id);
+        if (!currentUser) {
             return next(new AppError('The user belonging to this token no longer exist', 401));
         };
 
 
         //4.) check if user changed password after the token was issued
-        if (freshUser.changedPasswordAfter(decoded.iat)) {
+        if (currentUser.changedPasswordAfter(decoded.iat)) {
             return next(new AppError('User recently changed password! Please log in again.', 401))
         };
 
+
         //GRANT ACCESS TO ALL PROTECTED ROUTE
+        //passing user from middleware to middleware
+        req.user = currentUser
         next();
+
     } catch (err) {
         next(new AppError('Token or Authorization failed 😒', 401));
         // res.status(400).json({
