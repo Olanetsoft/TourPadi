@@ -40,7 +40,8 @@ const userSchema = new mongoose.Schema({
             },
             message: 'Password are not the same'
         }
-    }
+    },
+    passwordChangedAt: Date
 });
 
 
@@ -68,7 +69,21 @@ userSchema.methods.correctPassword = async function (
     userPassword
 ) {
     return await bcrypt.compare(candidatePassword, userPassword);
-}
+};
+
+
+//check if user changed password after the token was issued
+userSchema.methods.changedPasswordAfter = function(JWTTimestamp){
+    if(this.passwordChangedAt){
+        const changedTimeStamp = parseInt(this.passwordChangedAt.getTime()/1000, 10);
+
+        console.log(this.passwordChangedAt, JWTTimestamp);
+        return JWTTimestamp < changedTimeStamp; //100 < 200
+    };
+
+    //False means NOT changed
+    return false;
+};
 
 
 //define the Tour Model

@@ -86,22 +86,31 @@ exports.protect = async (req, res, next) => {
         //1.) Get token and check if it exist
         if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             token = req.headers.authorization.split(' ')[1];
+        };
 
-        }
-        console.log(token)
+        //console.log(token)
         //Check if no token in the header and return 401 for non authorized
         if (!token) {
             return next(new AppError('Please Login to get access 😒', 401));
-        }
+        };
 
         //2.) Verifying the token and use promisify function by node
         const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-        console.log(decoded)
 
-        //3.) check if user exists
+
+        //3.) check if user still exists
+        const freshUser = await User.findById(decoded.id);
+        if (!freshUser) {
+            return next(new AppError('The user belonging to this token no longer exist', 401));
+        };
+
 
         //4.) check if user changed password after the token was issued
+        if (freshUser.changedPasswordAfter(decoded.iat)) {
+            return next(new AppError('User recently changed password! Please log in again.', 401))
+        };
 
+        //GRANT ACCESS TO ALL PROTECTED ROUTE
         next();
     } catch (err) {
         next(new AppError('Token or Authorization failed 😒', 401));
@@ -109,6 +118,6 @@ exports.protect = async (req, res, next) => {
         //     status: 'failed',
         //     message: err
         // });
-        
+
     }
 };
