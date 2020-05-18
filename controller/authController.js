@@ -4,8 +4,12 @@ const { promisify } = require('util');
 //using the json web token
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
+
 //importing error class
 const AppError = require('./../utils/appError');
+
+//import the email function
+const sendMail = require('./../utils/email');
 
 
 //signup user
@@ -150,21 +154,45 @@ exports.forgotPassword = async (req, res, next) => {
         //1) Get user base on the posted email
         const user = await User.findOne({ email: req.body.email });
         //verify if the user exists
-        if(!user){
+        if (!user) {
             return next(new AppError('There is no such user with the email address.', 404))
         };
 
         //2) Generate the random reset token
         const resetToken = user.createPasswordResetToken();
         //set validateBeforeSave to false to deactivate all the validator in the schema
-        await user.save({validateBeforeSave: false});
+        await user.save({ validateBeforeSave: false });
 
 
         //3)send it to user email
-        
+        const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+
+        const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password kindly ignore this email`;
+
+        try {
+            await sendMail({
+                email: user.email,
+                subject: 'Password Reset Mail. (valid for 10mins)',
+                message
+            });
+
+            res.status(200).json({
+                status: 'success',
+                message: "Token sent to mail!"
+            });
+
+        } catch (err) {
+            user.passwordResetToken = undefined;
+            user.passwordResetExpires = undefined;
+            //set validateBeforeSave to false to deactivate all the validator in the schema
+            await user.save({ validateBeforeSave: false });
+
+            return new AppError('There was an error sending mail. Try again later!', 500);
+        };
+
 
     } catch (err) {
-        // next(new AppError('FOrgot password failed 😢', 404))
+        //next(new AppError('Forgot password failed 😢', 404))
     }
 
 
