@@ -14,6 +14,8 @@ router.patch('/api/v1/users/resetPassword/:token', authController.resetPassword)
 
 router.patch('/api/v1/users/updateMyPassword', authController.protect, authController.updatePassword);
 
+router.patch('/api/v1/users/updateMe', authController.protect, userController.updateMe);
+
 router.post('/api/v1/users/login', authController.login);
 
 router.post('/api/v1/users/signup', authController.signup);
