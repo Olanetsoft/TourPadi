@@ -4,6 +4,7 @@ const User = require('./../models/userModel');
 //import AppError
 const AppError = require('./../utils/appError');
 
+
 //create a function to filter fields
 const filterObj = (obj, ...allowedFields) => {
     const newObj = {};

@@ -33,6 +33,21 @@ exports.signup = async (req, res, next) => {
             expiresIn: process.env.JWT_EXPIRATION
         });
 
+        //set cookie options
+        const cookieOptions = {
+            //convert JWT_COOKIE_EXPIRES_IN to millisecond
+            expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+            httpOnly: true
+        };
+
+        //sending cookie to the client
+        if(process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+        res.cookie('jwt', token, cookieOptions);
+
+        //removing the password from the output in response after sign up
+        newUser.password = undefined;
+
+
         res.status(201).json({
             status: 'Success',
             token,
@@ -261,7 +276,7 @@ exports.updatePassword = async (req, res, next) => {
         //1) Get the user from the collection
         const user = await User.findById(req.user.id).select('+password');
         //console.log(user);
-        
+
         //2) check if posted password is correct
         if (!(await user.correctPassword(req.body.currentPassword, user.password))) {
             return next(new AppError('Your current password is wrong! 🙄', 401));
@@ -286,7 +301,7 @@ exports.updatePassword = async (req, res, next) => {
                 user
             }
         });
-        
+
     } catch (err) {
         //next(new AppError('Unable to Update pass', 404));
         res.status(400).json({
