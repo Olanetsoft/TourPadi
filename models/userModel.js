@@ -51,7 +51,12 @@ const userSchema = new mongoose.Schema({
     },
     passwordChangedAt: Date,
     passwordResetToken: String,
-    passwordResetExpires: Date
+    passwordResetExpires: Date,
+    active: {
+        type: Boolean,
+        default: true,
+        select: false
+    }
 });
 
 
@@ -84,6 +89,15 @@ userSchema.pre('save', function (next) {
     this.passwordChangedAt = Date.now() - 1000;
     next();
 });
+
+
+//Not to show an inactive user when requesting all users Routes
+userSchema.pre(/^find/, function(next){
+    //this points to the current query
+    this.find({active: {$ne: false}})
+    next();
+})
+
 
 
 //creating an instance method that is going to be available on all document on a certain collection

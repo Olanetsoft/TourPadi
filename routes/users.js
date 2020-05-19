@@ -16,6 +16,8 @@ router.patch('/api/v1/users/updateMyPassword', authController.protect, authContr
 
 router.patch('/api/v1/users/updateMe', authController.protect, userController.updateMe);
 
+router.delete('/api/v1/users/deleteMe', authController.protect, userController.deleteMe);
+
 router.post('/api/v1/users/login', authController.login);
 
 router.post('/api/v1/users/signup', authController.signup);

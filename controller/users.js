@@ -69,3 +69,21 @@ exports.updateMe = async (req, res, next) => {
         next(new AppError('Update me failed', 400))
     };
 };
+
+
+//create a delete me
+exports.deleteMe = async (req, res, next) => {
+    try {
+        //find and update the active status to false
+        await User.findByIdAndUpdate(req.user.id, { active: false });
+
+        //SEND RESPONSE IN JSON
+        res.status(204).json({
+            status: 'success 🙌',
+            data: null
+
+        });
+    } catch (err) {
+        return next(new AppError('Unable to delete User', 400))
+    }
+};
