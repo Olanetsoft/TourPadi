@@ -1,12 +1,12 @@
 const fs = require('fs');
 //importing tour model
-const Tour = require('./../models/tourModel');
+const Tour = require('../models/tourModel');
 
 //importing apiFeatures class
-const APIFeatures = require('./../utils/apiFeatures');
+const APIFeatures = require('../utils/apiFeatures');
 
 //import AppError
-const AppError = require('./../utils/appError')
+const AppError = require('../utils/appError')
 
 
 

@@ -5,7 +5,7 @@ const router = express.Router();
 const authController = require('../controller/authController');
 
 //import user controller
-const userController = require('../controller/users');
+const userController = require('../controller/usersControllers');
 
 
 router.post('/api/v1/users/forgotPassword', authController.forgotPassword);

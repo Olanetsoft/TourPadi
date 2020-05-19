@@ -1,8 +1,8 @@
 //importing tour model
-const User = require('./../models/userModel');
+const User = require('../models/userModel');
 
 //import AppError
-const AppError = require('./../utils/appError');
+const AppError = require('../utils/appError');
 
 
 //create a function to filter fields

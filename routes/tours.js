@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 //import tour controller
-const toursController = require('../controller/tours');
+const toursController = require('../controller/toursController');
 
 //import authentication controller module
 const authController = require('./../controller/authController');
