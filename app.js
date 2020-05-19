@@ -1,6 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 
+//Requiring hpp 
+const hpp = require('hpp');
+
 //Requiring mono sanitizer
 const mongoSanitizer = require('express-mongo-sanitize');
 
@@ -53,6 +56,19 @@ app.use(mongoSanitizer());
 
 //Data sanitization against XSS
 app.use(xss());
+
+
+//Using hpp to prevent parameter pollution
+app.use(hpp({
+    whitelist: [
+        'duration',
+        'ratingsAverage',
+        'ratingsQuantity',
+        'maxGroupSize',
+        'difficulty',
+        'price'
+    ]
+}));
 
 
 //registering a middleware for server static files
