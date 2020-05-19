@@ -1,6 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 
+//importing express rate limit
+const rateLimit = require('express-rate-limit');
+
 //import global error class
 const AppError = require('./utils/appError');
 
@@ -9,11 +12,23 @@ const globalErrorHandler = require('./controller/errorController')
 
 const app = express();
 
-//Middleware registered
+//Global Middleware registered
 //Using morgan only in development
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
+
+//using rateLimit
+const limiter = rateLimit({
+    //set the max depending on your application
+    max: 100,
+    windowMs: 60 * 60 * 1000,
+    message: 'Too many request from this IP, please try again in an hour!'
+});
+
+//applying the limiter on only the route that starts with /api
+app.use('/api', limiter);
+
 
 //Middleware registered
 app.use(express.json());
