@@ -42,6 +42,12 @@ app.use('/api', limiter);
 app.use(express.json({ limit: '10kb' }));
 
 
+//Data sanitization against NoSql query injection
+
+
+//Data sanitization against XSS
+
+
 //registering a middleware for server static files
 app.use(express.static(`${__dirname}/public`));
 
