@@ -41,7 +41,7 @@ exports.signup = async (req, res, next) => {
         };
 
         //sending cookie to the client
-        if(process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+        if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
         res.cookie('jwt', token, cookieOptions);
 
         //removing the password from the output in response after sign up
