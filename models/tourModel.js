@@ -30,7 +30,7 @@ const tourSchema = new mongoose.Schema({
         required: [true, 'A tour must have a Difficulty 😥'],
         //to validate the allowed values
         enum: {
-            values: ['easy', 'medium', 'difficulty'],
+            values: ['easy', 'medium', 'difficult'],
             message: 'Difficulty is either easy, medium or difficult'
         }
     },
@@ -80,7 +80,32 @@ const tourSchema = new mongoose.Schema({
     secretTour: {
         type: Boolean,
         default: false
-    }
+    },
+    //GeoJSON to specify the geolocation data
+    startLocation: {
+        //GeoJSON
+        type: {
+            type: String,
+            default: 'Point',
+            enum: ['Point']
+        },
+        coordinates: [Number],
+        address: String,
+        description: String
+    },
+    locations: [
+        {
+            type: {
+                type: String,
+                default: 'Point',
+                enum: ['Point']
+            },
+            coordinates: [Number],
+            address: String,
+            description: String,
+            day: Number
+        }
+    ]
 },
     //to make the virtual show up when a request is made you need to enable it here in the schema
     {
