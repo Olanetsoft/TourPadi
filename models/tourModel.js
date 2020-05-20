@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const slugify = require('slugify');
 const validator = require('validator');
 
+//importing User models
+const User = require('./userModel');
 
 //creating a model
 const tourSchema = new mongoose.Schema({
@@ -105,7 +107,9 @@ const tourSchema = new mongoose.Schema({
             description: String,
             day: Number
         }
-    ]
+    ],
+    //adding guides
+    guides: Array
 },
     //to make the virtual show up when a request is made you need to enable it here in the schema
     {
@@ -117,6 +121,15 @@ const tourSchema = new mongoose.Schema({
 //to create a virtual document thats not literally in the DB
 tourSchema.virtual('durationWeeks').get(function () {
     return this.duration / 7;
+});
+
+//each time a new tour is saved, it would find the the corresponding guide
+tourSchema.pre('save', async function (next) {
+
+    const guidesPromises = this.guides.map(async id => await User.findById(id));
+    this.guide = await Promise.all(guidesPromises);
+
+    next();
 });
 
 
