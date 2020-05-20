@@ -3,7 +3,7 @@ const slugify = require('slugify');
 const validator = require('validator');
 
 //importing User models
-const User = require('./userModel');
+//const User = require('./userModel');
 
 //creating a model
 const tourSchema = new mongoose.Schema({
@@ -109,7 +109,12 @@ const tourSchema = new mongoose.Schema({
         }
     ],
     //adding guides
-    guides: Array
+    guides: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User'
+        }
+    ]
 },
     //to make the virtual show up when a request is made you need to enable it here in the schema
     {
@@ -123,14 +128,16 @@ tourSchema.virtual('durationWeeks').get(function () {
     return this.duration / 7;
 });
 
+
+// for performing the embedding
 //each time a new tour is saved, it would find the the corresponding guide
-tourSchema.pre('save', async function (next) {
+// tourSchema.pre('save', async function (next) {
 
-    const guidesPromises = this.guides.map(async id => await User.findById(id));
-    this.guide = await Promise.all(guidesPromises);
+//     const guidesPromises = this.guides.map(async id => await User.findById(id));
+//     this.guide = await Promise.all(guidesPromises);
 
-    next();
-});
+//     next();
+// });
 
 
 //DOCUMENT MIDDLEWARE: runs before .save() and .create()
