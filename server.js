@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 
 //Handling uncaught exceptions globally
 process.on('uncaughtException', err => {
-    console.log('UNCAUGHT EXCEPTION 😶');
+    console.log('UNCAUGHT EXCEPTION 😶', err);
 });
 
 //using the dotenv variable

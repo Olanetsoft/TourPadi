@@ -77,6 +77,7 @@ app.use(express.static(`${__dirname}/public`));
 //adding the route configuration 
 const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
+const reviewsRoutes = require('./routes/reviews');
 
 
 //a middleware to test
@@ -89,6 +90,7 @@ app.use((req, res, next) => {
 //registering the route middleware
 app.use(tourRoutes);
 app.use(usersRoutes);
+app.use(reviewsRoutes);
 
 
 //Implement a handler to handle all non-existing route

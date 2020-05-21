@@ -13,7 +13,7 @@ const reviewSchema = new mongoose.Schema({
     },
     tour: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Tour', tourSchema,
+        ref: 'Tour',
         required: [true, 'Review must belong to a tour.']
 
     },
@@ -28,12 +28,12 @@ const reviewSchema = new mongoose.Schema({
         toJSON: { virtuals: true },
         toObject: { virtuals: true }
     }
-);
-//to make the virtual show up when a request is made you need to enable it here in the schema
-// {
-//     toJSON: { virtuals: true },
-//     toObject: { virtuals: true }
-// });
+    );
+    //to make the virtual show up when a request is made you need to enable it here in the schema
+    // {
+    //     toJSON: { virtuals: true },
+    //     toObject: { virtuals: true }
+    // });
 
 //define the Review Model
 const Review = mongoose.model('Review', reviewSchema);
