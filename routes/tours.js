@@ -21,15 +21,20 @@ router.get('/api/v1/monthly-plan/:year', toursController.getMonthlyPlan);
 
 router.post('/api/v1/tour', toursController.createTour);
 
-
-//declaring the nested route with reviews
-router.post('/api/v1/tours/:tourId/reviews', authController.protect, authController.restrictTo('user'), reviewController.createReview);
-
 router.patch('/api/v1/tour/:id', toursController.updateTour);
 
 router.delete('/api/v1/tour/:id', authController.protect, authController.restrictTo('admin', 'lead-guide'), toursController.deleteTour);
 
 router.get('/api/v1/tours/:id', toursController.getSingleTour);
+
+
+
+//declaring the nested route with reviews
+router.post('/api/v1/tours/:tourId/reviews', authController.protect, authController.restrictTo('user'), reviewController.createReview);
+
+//declaring the nested route with reviews
+router.get('/api/v1/tours/:tourId/reviews', authController.protect, authController.restrictTo('user'), reviewController.getAllReviews);
+
 
 
 module.exports = router;
