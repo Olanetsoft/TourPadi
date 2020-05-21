@@ -82,7 +82,7 @@ exports.getTours = async (req, res, next) => {
 exports.getSingleTour = async (req, res, next) => {
     try {
 
-        const singleTour = await Tour.findById(req.params.id);
+        const singleTour = await Tour.findById(req.params.id).populate('reviews');
 
         //Or Tour.findOne({_id: req.params.id})
 

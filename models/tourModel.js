@@ -123,9 +123,19 @@ const tourSchema = new mongoose.Schema({
     }
 );
 
+
 //to create a virtual document thats not literally in the DB
 tourSchema.virtual('durationWeeks').get(function () {
     return this.duration / 7;
+});
+
+
+//to create a virtual document thats not literally in the DB for reviews
+//to virtual populate
+tourSchema.virtual('reviews', {
+    ref: 'Review',
+    foreignField: 'tour',
+    localField: '_id'
 });
 
 
@@ -138,17 +148,6 @@ tourSchema.pre(/^find/, function (next) {
     });
     next();
 });
-
-
-// for performing the embedding
-//each time a new tour is saved, it would find the the corresponding guide
-// tourSchema.pre('save', async function (next) {
-
-//     const guidesPromises = this.guides.map(async id => await User.findById(id));
-//     this.guide = await Promise.all(guidesPromises);
-
-//     next();
-// });
 
 
 //DOCUMENT MIDDLEWARE: runs before .save() and .create()
