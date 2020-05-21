@@ -81,7 +81,10 @@ exports.getTours = async (req, res, next) => {
 //gets a single tour
 exports.getSingleTour = async (req, res, next) => {
     try {
+        //populate is added to return user data in the guide when requesting for a single tour
+
         const singleTour = await Tour.findById(req.params.id);
+           
         //Or Tour.findOne({_id: req.params.id})
 
         res.status(200).json({

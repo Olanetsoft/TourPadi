@@ -108,7 +108,7 @@ const tourSchema = new mongoose.Schema({
             day: Number
         }
     ],
-    //adding guides
+    //adding guides by creating reference to the user
     guides: [
         {
             type: mongoose.Schema.ObjectId,
@@ -126,6 +126,17 @@ const tourSchema = new mongoose.Schema({
 //to create a virtual document thats not literally in the DB
 tourSchema.virtual('durationWeeks').get(function () {
     return this.duration / 7;
+});
+
+
+//Adding this will make all the query automatically populate all the guides details
+tourSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'guides',
+        //this was added not to show this field upon request
+        select: '-__v -passwordChangedAt'
+    });
+    next();
 });
 
 
