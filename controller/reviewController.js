@@ -8,10 +8,32 @@ const APIFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/appError');
 
 
+//create a new review
 exports.createReview = async (req, res, next) => {
+    try {
+        //You can use this nothing is wrong with it
+        // const newReview = new Review({});
+        // newReview.save();
 
+        const newReview = await Review.create(req.body);
+
+        res.status(201).json({
+            status: 'success 🙌',
+            data: {
+                newReview
+            }
+
+        })
+    } catch (err) {
+        res.status(400).json({
+            status: 'failed 🤷‍♀️',
+            message: err
+        })
+    };
 };
 
+
+//Get all reviews
 exports.getAllReviews = async (req, res, next) => {
     try {
 
@@ -32,6 +54,8 @@ exports.getAllReviews = async (req, res, next) => {
     }
 };
 
+
+//get single review
 exports.getSingleReview = async (req, res, next) => {
     try {
         const singleReview = await Review.findById(req.params.id);
