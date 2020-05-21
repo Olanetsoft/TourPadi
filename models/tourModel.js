@@ -125,7 +125,7 @@ const tourSchema = new mongoose.Schema({
 
 
 //to create a virtual document thats not literally in the DB
-tourSchema.virtual('durationWeeks').get(function () {
+tourSchema.virtual('durationWeeks').get(function () { 
     return this.duration / 7;
 });
 

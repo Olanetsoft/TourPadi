@@ -11,9 +11,11 @@ const AppError = require('../utils/appError');
 //create a new review
 exports.createReview = async (req, res, next) => {
     try {
-        //You can use this nothing is wrong with it
-        // const newReview = new Review({});
-        // newReview.save();
+
+        //Allow nested route
+        //Also set the tour an user from the params if its not passed to the body
+        if (!req.body.tour) req.body.tour = req.params.tourId;
+        if (!req.body.user) req.body.user = req.user.id;
 
         const newReview = await Review.create(req.body);
 

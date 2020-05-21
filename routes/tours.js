@@ -4,6 +4,9 @@ const router = express.Router();
 //import tour controller
 const toursController = require('../controller/toursController');
 
+//import review controller
+const reviewController = require('../controller/reviewController');
+
 //import authentication controller module
 const authController = require('./../controller/authController');
 
@@ -17,6 +20,10 @@ router.get('/api/v1/tour-stats', toursController.getToursStats);
 router.get('/api/v1/monthly-plan/:year', toursController.getMonthlyPlan);
 
 router.post('/api/v1/tour', toursController.createTour);
+
+
+//declaring the nested route with reviews
+router.post('/api/v1/tours/:tourId/reviews', authController.protect, authController.restrictTo('user'), reviewController.createReview);
 
 router.patch('/api/v1/tour/:id', toursController.updateTour);
 

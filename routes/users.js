@@ -24,4 +24,5 @@ router.post('/api/v1/users/signup', authController.signup);
 
 router.get('/api/v1/users', userController.getAllUsers);
 
+
 module.exports = router;
