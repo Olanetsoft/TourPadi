@@ -28,12 +28,22 @@ const reviewSchema = new mongoose.Schema({
         toJSON: { virtuals: true },
         toObject: { virtuals: true }
     }
-    );
-    //to make the virtual show up when a request is made you need to enable it here in the schema
-    // {
-    //     toJSON: { virtuals: true },
-    //     toObject: { virtuals: true }
-    // });
+);
+
+
+//Adding this will make all the query automatically populate all the tour and user details
+reviewSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'tour',
+        //this was added not to show this field upon request
+        select: 'name'
+    }).populate({
+        path: 'user',
+        //this was added to show only this field upon request
+        select: 'name photo'
+    });
+    next();
+});
 
 //define the Review Model
 const Review = mongoose.model('Review', reviewSchema);
