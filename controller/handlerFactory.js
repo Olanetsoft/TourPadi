@@ -14,7 +14,7 @@ exports.deleteOneDocument = Model => async (req, res, next) => {
         });
     } catch (err) {
         //return error to check if document was deleted
-        next(new AppError(`Unable to delete Tour with ID: ${req.params.id}`, 404));
+        next(new AppError(`Unable to delete Document with ID: ${req.params.id}`, 404));
     };
 };
 

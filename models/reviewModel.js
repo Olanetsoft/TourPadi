@@ -69,21 +69,46 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
             }
         }
     ]);
-    console.log(stats)
+    // console.log(stats)
     //update the review on current tour
-    await Tour.findByIdAndUpdate(tourId, {
-        ratingsQuantity: stats[0].nRatings,
-        ratingsAverage: stats[0].avgRating
-
-    })
+    if(stats.length > 0){
+        await Tour.findByIdAndUpdate(tourId, {
+            ratingsQuantity: stats[0].nRatings,
+            ratingsAverage: stats[0].avgRating
+    
+        })
+    }else{
+        await Tour.findByIdAndUpdate(tourId, {
+            ratingsQuantity: 0,
+            ratingsAverage: 4.5
+    
+        });
+    }
+    
 };
-
 //to update it when a new review is created
 reviewSchema.post('save', function (next) {
     //this points to current review
     this.constructor.calcAverageRatings(this.tour);
 
 });
+
+
+//To update review
+//REMEMBER: findByIdAndUpdate is a shorthand for findOneAndUpdateById
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+    this.r = await this.findOne();
+    next();
+});
+
+
+//To update review
+//REMEMBER: findByIdAndUpdate is a shorthand for findOneAndUpdateById
+reviewSchema.post(/^findOneAnd/, async function () {
+    await this.r.constructor.calcAverageRatings(this.r.tour);
+});
+
+
 
 
 //define the Review Model
