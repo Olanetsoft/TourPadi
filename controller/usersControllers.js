@@ -20,6 +20,34 @@ const filterObj = (obj, ...allowedFields) => {
     return newObj;
 };
 
+//implementing get me endpoint
+exports.getMe = async (req, res, next) => {
+    req.params.id = req.user.id;
+    next();
+};
+
+//get a users
+exports.getUser = async (req, res, next) => {
+    try {
+        const singleUser = await User.findById(req.params.id)
+
+        //Or Tour.findOne({_id: req.params.id})
+        res.status(200).json({
+            status: 'success',
+            data: {
+                singleUser
+            }
+        });
+    } catch (err) {
+
+        //return error to check if user exist
+        next(new AppError(`No user found with ID: ${req.params.id}`, 404));
+        // res.status(404).json({
+        //     status: "failed",
+        //     message: err
+        // });
+    }
+}
 
 //Get all users
 exports.getAllUsers = async (req, res, next) => {
