@@ -33,6 +33,11 @@ const reviewSchema = new mongoose.Schema({
     }
 );
 
+//To restrict user from creating more than one review ro a s single tour
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true });
+
+
+
 //instance methods
 //Adding this will make all the query automatically populate all the tour and user details
 reviewSchema.pre(/^find/, function (next) {
@@ -71,20 +76,20 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
     ]);
     // console.log(stats)
     //update the review on current tour
-    if(stats.length > 0){
+    if (stats.length > 0) {
         await Tour.findByIdAndUpdate(tourId, {
             ratingsQuantity: stats[0].nRatings,
             ratingsAverage: stats[0].avgRating
-    
+
         })
-    }else{
+    } else {
         await Tour.findByIdAndUpdate(tourId, {
             ratingsQuantity: 0,
             ratingsAverage: 4.5
-    
+
         });
     }
-    
+
 };
 //to update it when a new review is created
 reviewSchema.post('save', function (next) {
@@ -94,7 +99,7 @@ reviewSchema.post('save', function (next) {
 });
 
 
-//To update review
+//To update review and delete
 //REMEMBER: findByIdAndUpdate is a shorthand for findOneAndUpdateById
 reviewSchema.pre(/^findOneAnd/, async function (next) {
     this.r = await this.findOne();
@@ -102,7 +107,7 @@ reviewSchema.pre(/^findOneAnd/, async function (next) {
 });
 
 
-//To update review
+//To update review and delete
 //REMEMBER: findByIdAndUpdate is a shorthand for findOneAndUpdateById
 reviewSchema.post(/^findOneAnd/, async function () {
     await this.r.constructor.calcAverageRatings(this.r.tour);
