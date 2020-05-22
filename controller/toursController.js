@@ -6,7 +6,10 @@ const Tour = require('../models/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
 
 //import AppError
-const AppError = require('../utils/appError')
+const AppError = require('../utils/appError');
+
+//import handlerFactory
+const factory = require('./handlerFactory');
 
 
 
@@ -129,23 +132,27 @@ exports.updateTour = async (req, res, next) => {
 };
 
 //delete a single tour
-exports.deleteTour = async (req, res, next) => {
-    try {
-        await Tour.findByIdAndDelete(req.params.id);
-        res.status(204).json({
-            status: 'success',
-            data: null
-        });
-    } catch (err) {
-        //return error to check if tour was deleted
-        next(new AppError(`Unable to delete Tour with ID: ${req.params.id}`, 404));
-        // res.status(404).json({
-        //     status: "failed to delete",
-        //     message: err
-        // });
-    };
+exports.deleteTour = factory.deleteOneDocument(Tour);
 
-};
+// exports.deleteTour = async (req, res, next) => {
+//     try {
+//         await Tour.findByIdAndDelete(req.params.id);
+//         res.status(204).json({
+//             status: 'success',
+//             data: null
+//         });
+//     } catch (err) {
+//         //return error to check if tour was deleted
+//         next(new AppError(`Unable to delete Tour with ID: ${req.params.id}`, 404));
+//         // res.status(404).json({
+//         //     status: "failed to delete",
+//         //     message: err
+//         // });
+//     };
+
+// };
+
+
 
 
 //using aggregation pipeline
