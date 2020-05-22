@@ -139,7 +139,6 @@ exports.updateTour = factory.updateOneDocument(Tour);
 
 //delete a single tour
 exports.deleteTour = factory.deleteOneDocument(Tour);
-
 // exports.deleteTour = async (req, res, next) => {
 //     try {
 //         await Tour.findByIdAndDelete(req.params.id);

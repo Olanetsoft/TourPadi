@@ -64,4 +64,7 @@ exports.createOneDocument = Model => async (req, res, next) => {
             message: err
         });
     };
-}
+};
+
+
+//get one or all document can also be implemented using factory handler
