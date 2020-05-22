@@ -40,3 +40,28 @@ exports.updateOneDocument = Model => async (req, res, next) => {
         next(new AppError('Unable to Update Tour', 404));
     };
 };
+
+//create one document
+exports.createOneDocument = Model => async (req, res, next) => {
+    try {
+        //You can use this nothing is wrong with it
+        // const newTour = new Tour({});
+        // newTour.save();
+
+        const doc = await Model.create(req.body);
+        res.status(201).json({
+            status: 'success 🙌',
+            result: doc.length,
+            data: {
+                data: doc
+            }
+
+        });
+
+    } catch (err) {
+        res.status(400).json({
+            status: 'failed',
+            message: err
+        });
+    };
+}

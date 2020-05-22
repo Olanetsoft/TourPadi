@@ -22,31 +22,34 @@ exports.aliasTopTours = (req, res, next) => {
     next();
 };
 
+
+
 //create tour model
-exports.createTour = async (req, res, next) => {
-    try {
-        //You can use this nothing is wrong with it
-        // const newTour = new Tour({});
-        // newTour.save();
+exports.createTour = factory.createOneDocument(Tour);
+// exports.createTour = async (req, res, next) => {
+//     try {
+//         //You can use this nothing is wrong with it
+//         // const newTour = new Tour({});
+//         // newTour.save();
 
-        const newTour = await Tour.create(req.body);
-        res.status(201).json({
-            status: 'success 🙌',
-            result: newTour.length,
-            data: {
-                newTour
-            }
+//         const newTour = await Tour.create(req.body);
+//         res.status(201).json({
+//             status: 'success 🙌',
+//             result: newTour.length,
+//             data: {
+//                 newTour
+//             }
 
-        })
-    } catch (err) {
-        res.status(400).json({
-            status: 'failed',
-            message: err
-        })
-        //console.log("FIle not created: " + err);
-    };
+//         })
+//     } catch (err) {
+//         res.status(400).json({
+//             status: 'failed',
+//             message: err
+//         })
+//         //console.log("FIle not created: " + err);
+//     };
 
-};
+// };
 
 
 //Gets all the tours
@@ -72,7 +75,7 @@ exports.getTours = async (req, res, next) => {
         });
     } catch (err) {
 
-        next();
+        next(new AppError('No tour found', 404));
         // res.status(404).json({
         //     status: "failed",
         //     message: err
