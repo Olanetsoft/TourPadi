@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 
+//importing the tour model
+const Tour = require('./tourModel');
+
 const reviewSchema = new mongoose.Schema({
     review: {
         type: String,
@@ -30,7 +33,7 @@ const reviewSchema = new mongoose.Schema({
     }
 );
 
-
+//instance methods
 //Adding this will make all the query automatically populate all the tour and user details
 reviewSchema.pre(/^find/, function (next) {
     this.populate({
@@ -49,6 +52,39 @@ reviewSchema.pre(/^find/, function (next) {
     // });
     next();
 });
+
+
+//static methods
+//to calculate the average review rating upon new review submission
+reviewSchema.statics.calcAverageRatings = async function (tourId) {
+    const stats = await this.aggregate([
+        {
+            $match: { tour: tourId }
+        },
+        {
+            $group: {
+                _id: '$tour',
+                nRatings: { $sum: 1 },
+                avgRating: { $avg: '$rating' }
+            }
+        }
+    ]);
+    console.log(stats)
+    //update the review on current tour
+    await Tour.findByIdAndUpdate(tourId, {
+        ratingsQuantity: stats[0].nRatings,
+        ratingsAverage: stats[0].avgRating
+
+    })
+};
+
+//to update it when a new review is created
+reviewSchema.post('save', function (next) {
+    //this points to current review
+    this.constructor.calcAverageRatings(this.tour);
+
+});
+
 
 //define the Review Model
 const Review = mongoose.model('Review', reviewSchema);
