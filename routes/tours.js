@@ -11,21 +11,23 @@ const reviewController = require('../controller/reviewController');
 const authController = require('./../controller/authController');
 
 
-router.get('/api/v1/tours', authController.protect, toursController.getTours);
+router.get('/api/v1/tours', toursController.getTours);
+
+router.get('/api/v1/tours/:id', toursController.getSingleTour);
 
 router.get('/api/v1/tours/top-5-cheap', toursController.aliasTopTours, toursController.getTours);
 
 router.get('/api/v1/tour-stats', toursController.getToursStats);
 
-router.get('/api/v1/monthly-plan/:year', toursController.getMonthlyPlan);
+router.get('/api/v1/monthly-plan/:year', authController.protect, authController.restrictTo('admin', 'lead-guide', 'guide'), toursController.getMonthlyPlan);
 
-router.post('/api/v1/tour', toursController.createTour);
+router.post('/api/v1/tour', authController.protect, authController.restrictTo('admin', 'lead-guide'), toursController.createTour);
 
-router.patch('/api/v1/tour/:id', toursController.updateTour);
+router.patch('/api/v1/tour/:id', authController.protect, authController.restrictTo('admin', 'lead-guide'), toursController.updateTour);
 
 router.delete('/api/v1/tour/:id', authController.protect, authController.restrictTo('admin', 'lead-guide'), toursController.deleteTour);
 
-router.get('/api/v1/tours/:id', toursController.getSingleTour);
+
 
 
 
