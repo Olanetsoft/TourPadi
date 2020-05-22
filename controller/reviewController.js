@@ -45,7 +45,14 @@ exports.getAllReviews = async (req, res, next) => {
         //this is added to che if the params include tourId then is should return reviews with respect to the tourId else return all reviews
         if (req.params.tourId) filter = { tour: req.params.tourId }
 
-        const allReviews = await Review.find(filter);
+         //EXECUTE THE QUERY_OBJ
+         const features = new APIFeatures(Review.find(filter), req.query)
+         .filter()
+         .sort()
+         .limitFields()
+         .paginate();
+
+        const allReviews = await features.query;
 
         //SEND RESPONSE IN JSON
         res.status(200).json({
