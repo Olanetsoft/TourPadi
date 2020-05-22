@@ -8,7 +8,6 @@ const authController = require('../controller/authController');
 const userController = require('../controller/usersControllers');
 
 
-
 router.post('/api/v1/users/login', authController.login);
 
 router.post('/api/v1/users/signup', authController.signup);

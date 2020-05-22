@@ -9,16 +9,20 @@ const authController = require('./../controller/authController');
 
 
 
-router.post('/api/v1/review', authController.protect, authController.restrictTo('user'), reviewsController.createReview);
+//To protect all the review route
+router.use(authController.protect);
 
-router.patch('/api/v1/review/:id', reviewsController.updateReview);
 
 router.get('/api/v1/reviews', reviewsController.getAllReviews);
 
 router.get('/api/v1/review/:id', reviewsController.getSingleReview);
 
-router.delete('/api/v1/review/:id', reviewsController.deleteReview);
 
+router.post('/api/v1/review', authController.restrictTo('user'), reviewsController.createReview);
+
+router.patch('/api/v1/review/:id', authController.restrictTo('user', 'admin'), reviewsController.updateReview);
+
+router.delete('/api/v1/review/:id', authController.restrictTo('user', 'admin'), reviewsController.deleteReview);
 
 
 module.exports = router;
