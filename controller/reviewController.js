@@ -7,6 +7,9 @@ const APIFeatures = require('../utils/apiFeatures');
 //import AppError
 const AppError = require('../utils/appError');
 
+//import handlerFactory
+const factory = require('./handlerFactory');
+
 
 //create a new review
 exports.createReview = async (req, res, next) => {
@@ -78,3 +81,6 @@ exports.getSingleReview = async (req, res, next) => {
         next(new AppError(`No Review found with ID: ${req.params.id}`, 404));
     }
 };
+
+//delete review
+exports.deleteReview = factory.deleteOneDocument(Review);

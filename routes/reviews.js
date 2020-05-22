@@ -15,6 +15,8 @@ router.get('/api/v1/reviews', reviewsController.getAllReviews);
 
 router.get('/api/v1/review/:id', reviewsController.getSingleReview);
 
+router.delete('/api/v1/review/:id', reviewsController.deleteReview);
+
 
 
 module.exports = router;
