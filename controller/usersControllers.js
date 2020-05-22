@@ -94,3 +94,5 @@ exports.deleteMe = async (req, res, next) => {
 };
 
 exports.deleteUser = factory.deleteOneDocument(User);
+
+exports.updateUser = factory.updateOneDocument(User);

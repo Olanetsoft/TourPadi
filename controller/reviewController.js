@@ -84,3 +84,6 @@ exports.getSingleReview = async (req, res, next) => {
 
 //delete review
 exports.deleteReview = factory.deleteOneDocument(Review);
+
+//update review
+exports.updateReview = factory.updateOneDocument(Review);

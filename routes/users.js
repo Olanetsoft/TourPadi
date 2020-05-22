@@ -16,9 +16,11 @@ router.patch('/api/v1/users/updateMyPassword', authController.protect, authContr
 
 router.patch('/api/v1/users/updateMe', authController.protect, userController.updateMe);
 
+router.patch('/api/v1/users/:id', authController.protect, userController.deleteUser);
+
 router.delete('/api/v1/users/deleteMe', authController.protect, userController.deleteMe);
 
-router.delete('/api/v1/users/deleteMe', userController.deleteUser);
+router.delete('/api/v1/users/:id', userController.deleteUser);
 
 router.post('/api/v1/users/login', authController.login);
 
