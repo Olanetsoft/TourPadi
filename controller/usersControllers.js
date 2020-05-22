@@ -4,6 +4,10 @@ const User = require('../models/userModel');
 //import AppError
 const AppError = require('../utils/appError');
 
+//import handlerFactory
+const factory = require('./handlerFactory');
+
+
 
 //create a function to filter fields
 const filterObj = (obj, ...allowedFields) => {
@@ -88,3 +92,5 @@ exports.deleteMe = async (req, res, next) => {
         return next(new AppError('Unable to delete User', 400))
     }
 };
+
+exports.deleteUser = factory.deleteOneDocument(User);
