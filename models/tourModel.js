@@ -124,8 +124,15 @@ const tourSchema = new mongoose.Schema({
 );
 
 
+
+//For readability speed we scan with index using
+// tourSchema.index({ price: 1 });
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: 1 });
+
+
 //to create a virtual document thats not literally in the DB
-tourSchema.virtual('durationWeeks').get(function () { 
+tourSchema.virtual('durationWeeks').get(function () {
     return this.duration / 7;
 });
 
