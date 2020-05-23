@@ -85,35 +85,10 @@ app.use(hpp({
 
 
 
-//adding the route configuration 
-app.get('/', (req, res, next) =>{
-    res.status(200).render('base', {
-        tour: 'The forest',
-        user: 'Idris'
-    })
-});
-
-
-//adding the route configuration 
-app.get('/overview', (req, res, next) =>{
-    res.status(200).render('overview', {
-        title: 'All Tours'
-    })
-});
-
-
-//adding the route configuration 
-app.get('/tour', (req, res, next) =>{
-    res.status(200).render('tour', {
-        title: 'Tour'
-    });
-});
-
-
-
 const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
 const reviewsRoutes = require('./routes/reviews');
+const viewsRoutes = require('./routes/views');
 
 
 //a middleware to test
@@ -124,9 +99,11 @@ app.use((req, res, next) => {
 
 
 //registering the route middleware
+app.use(viewsRoutes);
 app.use(tourRoutes);
 app.use(usersRoutes);
 app.use(reviewsRoutes);
+
 
 
 //Implement a handler to handle all non-existing route
