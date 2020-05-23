@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Olanetsoft/tourism-api-endpoint.git"
+    "url": "git+https://github.com/Olanetsoft/TourPadi.git"
   },
   "author": "Idris Olubisi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Olanetsoft/tourism-api-endpoint/issues"
+    "url": "https://github.com/Olanetsoft/TourPadi/issues"
   },
-  "homepage": "https://github.com/Olanetsoft/tourism-api-endpoint#readme",
+  "homepage": "https://github.com/Olanetsoft/TourPadi#readme",
   "dependencies": {
     "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
