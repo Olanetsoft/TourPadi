@@ -264,3 +264,44 @@ exports.getMonthlyPlan = async (req, res, next) => {
         // });
     };
 };
+
+
+//Getting all tours within
+// /tours-within/:distance/center/:latlng/unit/:unit
+//e.g /tours-within/233/center/-40,45/unit/mi
+exports.getAllToursWithin = async (req, res, next) => {
+    try {
+        const { distance, latlng, unit } = req.params;
+
+        //the radius is converted distance to radains
+        const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1;
+
+        const [lat, lng] = latlng.split(",");
+        if (!lat || !lng) {
+            next(new AppError('Please provide in the format lat, lng', 400))
+        };
+
+        //using geo spatial query
+        const tours = await Tour.find({
+            startLocation: {
+                $geoWithin: { $centerSphere: [[lng, lat], radius] }
+            }
+        });
+
+        res.status(200).json({
+            status: 'success 🤩',
+            result: tours.length,
+            data: {
+                data: tours
+            }
+        });
+    } catch (err) {
+        //next(new AppError('Unable to get all tours within', 404));
+        res.status(404).json({
+            status: "failed to get",
+            message: err
+        });
+    }
+
+
+};
