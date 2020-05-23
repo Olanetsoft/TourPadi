@@ -1,5 +1,12 @@
 extends base
 
+mixin overviewBox(label, text, icon)
+    .overview-box__detail
+        svg.overview-box__icon
+            use(xlink:href=`/img/icons.svg#icon-${icon}`)
+        span.overview-box__label= label
+        span.overview-box__text= text
+
 block content
     section.section-header
         .header__hero
@@ -24,41 +31,25 @@ block content
             div
                 .overview-box__group
                     h2.heading-secondary.ma-bt-lg Quick facts
-                    .overview-box__detail
-                        svg.overview-box__icon
-                            use(xlink:href='/img/icons.svg#icon-calendar')
-                        span.overview-box__label Next date
-                        span.overview-box__text August 2021
-                    .overview-box__detail
-                        svg.overview-box__icon
-                            use(xlink:href='/img/icons.svg#icon-trending-up')
-                        span.overview-box__label Difficulty
-                        span.overview-box__text Medium
-                    .overview-box__detail
-                        svg.overview-box__icon
-                            use(xlink:href='/img/icons.svg#icon-user')
-                        span.overview-box__label Participants
-                        span.overview-box__text 10 people
-                    .overview-box__detail
-                        svg.overview-box__icon
-                            use(xlink:href='/img/icons.svg#icon-star')
-                        span.overview-box__label Rating
-                        span.overview-box__text 4.9 / 5
+                    +overviewBox('Next date', singleTour.startDates[0].toLocaleString('en-us', {month: 'long', year: 'numeric'}), 'calender')
+                    +overviewBox('Difficulty', singleTour.difficulty, 'trending-up')
+                    +overviewBox('Participants', `${singleTour.maxGroupSize} people`, 'user')
+                    +overviewBox('Rating', `${singleTour.ratingsAverage} / 5`, 'star')
 
-                    .overview-box__group
-                        h2.heading-secondary.ma-bt-lg Your tour guides
-                        .overview-box__detail
-                            img.overview-box__img(src='/img/users/user-19.jpg', alt='Lead guide')
-                            span.overview-box__label Lead guide
-                            span.overview-box__text Steven Miller
-                        .overview-box__detail
-                            img.overview-box__img(src='/img/users/user-18.jpg', alt='Tour guide')
-                            span.overview-box__label Tour guide
-                            span.overview-box__text Lisa Brown
-                        .overview-box__detail
-                            img.overview-box__img(src='/img/users/user-17.jpg', alt='Intern')
-                            span.overview-box__label Intern
-                            span.overview-box__text Max Smith
+                .overview-box__group
+                    h2.heading-secondary.ma-bt-lg Your tour guides
+                    .overview-box__detail
+                        img.overview-box__img(src='/img/users/user-19.jpg', alt='Lead guide')
+                        span.overview-box__label Lead guide
+                        span.overview-box__text Steven Miller
+                    .overview-box__detail
+                        img.overview-box__img(src='/img/users/user-18.jpg', alt='Tour guide')
+                        span.overview-box__label Tour guide
+                        span.overview-box__text Lisa Brown
+                    .overview-box__detail
+                        img.overview-box__img(src='/img/users/user-17.jpg', alt='Intern')
+                        span.overview-box__label Intern
+                        span.overview-box__text Max Smith
 
         .description-box
             h2.heading-secondary.ma-bt-lg About the park camper tour
