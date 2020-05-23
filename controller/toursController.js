@@ -273,7 +273,7 @@ exports.getAllToursWithin = async (req, res, next) => {
     try {
         const { distance, latlng, unit } = req.params;
 
-        //the radius is converted distance to radains
+        //the radius is converted distance to radians
         const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1;
 
         const [lat, lng] = latlng.split(",");
@@ -296,12 +296,56 @@ exports.getAllToursWithin = async (req, res, next) => {
             }
         });
     } catch (err) {
-        //next(new AppError('Unable to get all tours within', 404));
-        res.status(404).json({
-            status: "failed to get",
-            message: err
-        });
+        next(new AppError('Unable to get all tours within', 404));
     }
 
+};
+
+
+//getting the distance
+exports.getDistance = async (req, res, next) => {
+    try {
+        const { latlng, unit } = req.params;
+        const [lat, lng] = latlng.split(",");
+
+        //creating a multiplier variable
+        const multiplier = unit === 'mi' ? 0.000621371 : 0.001;
+
+
+        if (!lat || !lng) {
+            next(new AppError('Please provide in the format lat, lng', 400))
+        };
+
+        const distances = await Tour.aggregate([
+            {
+                //this always needs to be the first stage
+                $geoNear: {
+                    near: {
+                        type: 'Point',
+                        coordinates: [lng * 1, lat * 1]
+                    },
+                    distanceField: 'distance',
+                    distanceMultiplier: multiplier
+                }
+            },
+            //the second stage, to get rid of all other data
+            {
+                $project: {
+                    distance: 1,
+                    name: 1
+                }
+            }
+
+        ])
+
+        res.status(200).json({
+            status: 'success 🤩',
+            data: {
+                data: distances
+            }
+        });
+    } catch (err) {
+        next(new AppError('Unable to get all tours within', 404));
+    }
 
 };

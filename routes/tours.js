@@ -13,6 +13,10 @@ const authController = require('./../controller/authController');
 //specify url this way which contains a lot of options
 router.get('/api/v1/tours/tours-within/:distance/center/:latlng/unit/:unit', toursController.getAllToursWithin);
 
+//getting the users distance
+router.get('/api/v1/tours/distances/:latlng/unit/:unit', toursController.getDistance);
+
+
 router.get('/api/v1/tours', toursController.getTours);
 
 router.get('/api/v1/tours/:id', toursController.getSingleTour);
