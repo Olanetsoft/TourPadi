@@ -29,8 +29,19 @@ exports.getOverview = async (req, res, next) => {
 
 
 //the tour detail page
-exports.tourDetail = (req, res, next) => {
-    res.status(200).render('tour', {
-        title: 'Tour'
-    });
+exports.tourDetail = async (req, res, next) => {
+    try {
+        const singleTour = await Tour.findOne({ slug: req.params.slug }).populate({
+            path: 'reviews',
+            fields: 'reviews rating user'
+        });
+
+        res.status(200).render('tour', {
+            title: 'Tour',
+            singleTour
+        });
+    } catch (err) {
+        next(new AppError('failed to get tour', 404))
+    }
+
 };

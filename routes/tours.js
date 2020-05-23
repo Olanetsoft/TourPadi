@@ -19,7 +19,7 @@ router.get('/api/v1/tours/distances/:latlng/unit/:unit', toursController.getDist
 
 router.get('/api/v1/tours', toursController.getTours);
 
-router.get('/api/v1/tours/:id', toursController.getSingleTour);
+router.get('/api/v1/tour/:id', toursController.getSingleTour);
 
 router.get('/api/v1/tours/top-5-cheap', toursController.aliasTopTours, toursController.getTours);
 
