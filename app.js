@@ -87,7 +87,10 @@ app.use(hpp({
 
 //adding the route configuration 
 app.get('/', (req, res, next) =>{
-    res.status(200).render('base')
+    res.status(200).render('base', {
+        tour: 'The forest',
+        user: 'Idris'
+    })
 });
 
 const tourRoutes = require('./routes/tours');

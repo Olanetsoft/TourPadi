@@ -1,10 +1,11 @@
 doctype html
 html
     head
-        title TourPadi
+        title TourPadi | #{tour}
         link(rel='stylesheet' href='css/style.css') 
-        link(rel='shortcut icon' type='image/png' href='img/favicon.png') 
+        link(rel='shortcut icon' type='image/png' href='img/island.png') 
 
     body
-        h1 The Park Camper Tour
-        p sdlsdfgjasdf
+        // comments
+        h1= tour
+        p= user.toUpperCase()
