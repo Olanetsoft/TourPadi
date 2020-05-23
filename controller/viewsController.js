@@ -5,21 +5,27 @@ const Tour = require('../models/tourModel');
 const AppError = require('../utils/appError');
 
 
-//the homepage
-exports.homePage = (req, res, next) => {
-    res.status(200).render('base', {
-        tour: 'The forest',
-        user: 'Idris'
-    })
-};
-
-
 //the overview page
-exports.getOverview = (req, res, next) => {
-    res.status(200).render('overview', {
-        title: 'All Tours'
-    })
+exports.getOverview = async (req, res, next) => {
+    try {
+
+        //1) Get all the tour data from Collection
+        const tours = await Tour.find();
+
+        //2) Build template
+
+        //3) Render template
+        res.status(200).render('overview', {
+            title: 'All Tours',
+            tours
+        });
+
+    } catch (err) {
+        next(new AppError('failed to get all tour', 404))
+    }
+
 };
+
 
 
 //the tour detail page
