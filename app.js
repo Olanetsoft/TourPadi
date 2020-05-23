@@ -93,6 +93,24 @@ app.get('/', (req, res, next) =>{
     })
 });
 
+
+//adding the route configuration 
+app.get('/overview', (req, res, next) =>{
+    res.status(200).render('overview', {
+        title: 'All Tours'
+    })
+});
+
+
+//adding the route configuration 
+app.get('/tour', (req, res, next) =>{
+    res.status(200).render('tour', {
+        title: 'Tour'
+    });
+});
+
+
+
 const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
 const reviewsRoutes = require('./routes/reviews');
