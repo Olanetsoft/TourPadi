@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 
@@ -23,6 +24,18 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controller/errorController')
 
 const app = express();
+
+
+//setting the view engine
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+
+//registering a middleware for server static files
+// app.use(express.static(`${__dirname}/public`));
+app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 //using the helmet to set secure http headers
 app.use(helmet());
@@ -71,10 +84,12 @@ app.use(hpp({
 }));
 
 
-//registering a middleware for server static files
-app.use(express.static(`${__dirname}/public`));
 
 //adding the route configuration 
+app.get('/', (req, res, next) =>{
+    res.status(200).render('base')
+});
+
 const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
 const reviewsRoutes = require('./routes/reviews');
