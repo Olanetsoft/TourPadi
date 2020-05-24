@@ -166,6 +166,9 @@ exports.protect = async (req, res, next) => {
         //GRANT ACCESS TO ALL PROTECTED ROUTE
         //passing user from middleware to middleware
         req.user = currentUser
+
+        //now use response.local
+        res.locals.user = currentUser
         next();
 
     } catch (err) {

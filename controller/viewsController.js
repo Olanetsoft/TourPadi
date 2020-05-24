@@ -53,8 +53,15 @@ exports.tourDetail = async (req, res, next) => {
 
 //login
 exports.loginUser = (req, res, next) => {
-
     res.status(200).render('login', {
         title: 'Login'
+    });
+};
+
+
+//get my Details
+exports.getAccountDetails = (req, res) => {
+    res.status(200).render('account', {
+        title: 'Your Account'
     });
 };
