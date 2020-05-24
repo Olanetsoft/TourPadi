@@ -45,3 +45,11 @@ exports.tourDetail = async (req, res, next) => {
     }
 
 };
+
+//login
+exports.loginUser = (req, res, next) => {
+
+    res.status(200).render('login', {
+        title: 'Login'
+    });
+};

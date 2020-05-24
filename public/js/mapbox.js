@@ -1,6 +1,6 @@
 //Get the locations from the supplied data on the front end
 const locations = JSON.parse(document.getElementById('map').dataset.locations);
-console.log(locations)
+//console.log(locations)
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoib2xhbmV0c29mdCIsImEiOiJjazFudTBkbTcwYTFrM2JxZncxZW9zOXNjIn0.YgyUQrHeEyvLPKZZDP_yJg';
 var map = new mapboxgl.Map({

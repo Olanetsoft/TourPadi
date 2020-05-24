@@ -10,5 +10,7 @@ router.get('/', viewsController.getOverview);
 
 router.get('/tour/:slug', viewsController.tourDetail);
 
+router.get('/login', viewsController.loginUser);
+
 
 module.exports = router;
