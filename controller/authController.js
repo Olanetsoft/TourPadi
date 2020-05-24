@@ -43,6 +43,7 @@ exports.signup = async (req, res, next) => {
         //sending cookie to the client
         if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
         res.cookie('jwt', token, cookieOptions);
+      
 
         //removing the password from the output in response after sign up
         newUser.password = undefined;
@@ -91,6 +92,18 @@ exports.login = async (req, res, next) => {
             expiresIn: process.env.JWT_EXPIRATION
         });
 
+        //set cookie options
+        const cookieOptions = {
+            //convert JWT_COOKIE_EXPIRES_IN to millisecond
+            expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+            httpOnly: true
+        };
+
+        //sending cookie to the client
+        if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+        res.cookie('jwt', token, cookieOptions);
+
+
         res.status(200).json({
             status: 'success',
             token
@@ -110,6 +123,8 @@ exports.protect = async (req, res, next) => {
         //1.) Get token and check if it exist
         if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             token = req.headers.authorization.split(' ')[1];
+        }else if (req.cookies.jwt){
+            token = req.cookies.jwt
         };
 
         //console.log(token)

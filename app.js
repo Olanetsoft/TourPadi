@@ -5,9 +5,6 @@ const morgan = require('morgan');
 //Requiring hpp 
 const hpp = require('hpp');
 
-//requiring the cookie parser
-const cookieParser = require('');
-
 //Requiring mono sanitizer
 const mongoSanitizer = require('express-mongo-sanitize');
 
@@ -19,6 +16,10 @@ const helmet = require('helmet');
 
 //Requiring express rate limit
 const rateLimit = require('express-rate-limit');
+
+//requiring the cookie parser
+const cookieParser = require('cookie-parser');
+
 
 //import global error class
 const AppError = require('./utils/appError');
@@ -66,6 +67,7 @@ app.use('/api', limiter);
 //Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
 
+app.use(cookieParser())
 
 //Data sanitization against NoSql query injection
 app.use(mongoSanitizer());
@@ -96,7 +98,7 @@ const viewsRoutes = require('./routes/views');
 
 //a middleware to test
 app.use((req, res, next) => {
-    //console.log(req.headers);
+    console.log(req.cookies);
     next();
 });
 
