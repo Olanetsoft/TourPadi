@@ -2,7 +2,6 @@
 import axios from 'axios';
 
 
-
 //exporting a js file is not like node just add export
 export const login = async (email, password) => {
     try {
