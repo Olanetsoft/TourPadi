@@ -37,7 +37,7 @@ exports.tourDetail = async (req, res, next) => {
         });
 
         res.status(200).render('tour', {
-            title: 'Tour',
+            title: `${singleTour.name} Tour`,
             singleTour
         });
     } catch (err) {
