@@ -115,6 +115,19 @@ exports.login = async (req, res, next) => {
 
 };
 
+//logging out user
+exports.logout = (req, res, next) => {
+    res.cookie('jwt', 'loggedOut', {
+        expires: new Date(Date.now() + 10 * 1000),
+        httpOnly: true
+    });
+    res.status(200).json({
+        status: 'success 😋'
+    });
+};
+
+
+
 //protecting the route against not login user
 exports.protect = async (req, res, next) => {
     try {
@@ -182,10 +195,10 @@ exports.restrictTo = (...roles) => {
 //to check if user is logged in
 //and only render pages
 exports.isLoggedIn = async (req, res, next) => {
-    try {
+    // try {
 
-        if (req.cookies.jwt) {
-
+    if (req.cookies.jwt) {
+        try {
             // Verify the token 
             const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
 
@@ -206,15 +219,18 @@ exports.isLoggedIn = async (req, res, next) => {
             //now use response.local
             res.locals.user = currentUser
             return next();
+        } catch (err) {
+            return next();
         }
-        next();
-    } catch (err) {
-        next(new AppError('failed 😒', 401));
-        // res.status(400).json({
-        //     status: 'failed',
-        //     message: err
-        // });
     }
+    next();
+    // } catch (err) {
+    //     next(new AppError('failed 😒', 401));
+    //     // res.status(400).json({
+    //     //     status: 'failed',
+    //     //     message: err
+    //     // });
+    // }
 };
 
 

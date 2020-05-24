@@ -10,6 +10,8 @@ const userController = require('../controller/usersControllers');
 
 router.post('/api/v1/users/login', authController.login);
 
+router.get('/api/v1/users/logout', authController.logout);
+
 router.post('/api/v1/users/signup', authController.signup);
 
 router.post('/api/v1/users/forgotPassword', authController.forgotPassword);

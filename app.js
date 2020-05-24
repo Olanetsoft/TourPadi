@@ -98,7 +98,7 @@ const viewsRoutes = require('./routes/views');
 
 //a middleware to test
 app.use((req, res, next) => {
-    console.log(req.cookies);
+    //console.log(req.cookies);
     next();
 });
 

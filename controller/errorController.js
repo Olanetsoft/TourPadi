@@ -37,17 +37,23 @@ const handleValidationErrorDB = err => {
 
 
 //Send error for development env
-const sendDevError = (err, res) => {
-    res.status(err.statusCode).json({
-        status: err.status,
-        error: err,
-        message: err.message,
-        stack: err.stack
-    });
+const sendDevError = (err, req, res) => {
+    if (req.originalUrl.startsWith('/api')) {
+        res.status(err.statusCode).json({
+            status: err.status,
+            error: err,
+            message: err.message,
+            stack: err.stack
+        });
+    } else {
+        res.status(err.status).render('error', {
+            title: 'Oops! Something went wrong!'
+        });
+    }
 };
 
 //send error for production env
-const sendProdError = (err, res) => {
+const sendProdError = (err, req, res) => {
     //Operational, trusted error: send message to client
     if (err.isOperational) {
         res.status(err.statusCode).json({
@@ -78,7 +84,7 @@ module.exports = (err, req, res, next) => {
     err.status = err.status || 'error';
 
     if (process.env.NODE_ENV === 'development') {
-        sendDevError(err, res);
+        sendDevError(err, req, res);
     }
     else if (process.env.NODE_ENV === 'production') {
         //make a copy of the errors
@@ -96,6 +102,6 @@ module.exports = (err, req, res, next) => {
         if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
 
 
-        sendProdError(error, res);
+        sendProdError(error, req, res);
     };
 };

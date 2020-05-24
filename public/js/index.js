@@ -2,7 +2,7 @@
 import '@babel/polyfill';
 
 //import login.js code
-import { login } from './login';
+import { login, logout } from './logout-logout';
 
 //import polyfill
 import { displayMap } from './mapbox';
@@ -10,6 +10,7 @@ import { displayMap } from './mapbox';
 //DOM ELEMENT
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form');
+const logoutBtn = document.querySelector('.nav__el--logout');
 
 
 
@@ -20,6 +21,7 @@ if (mapBox) {
     displayMap(locations);
 };
 
+//Login
 if (loginForm) {
     loginForm.addEventListener('submit', e => {
         e.preventDefault();
@@ -29,4 +31,7 @@ if (loginForm) {
         const password = document.getElementById('password').value;
         login(email, password);
     });
-}
+};
+
+//logout
+if (logoutBtn) logoutBtn.addEventListener('click', logout);
