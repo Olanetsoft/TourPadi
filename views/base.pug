@@ -1,12 +1,13 @@
 doctype html
 html
     head
-        meta(charset='UTF-8')
-        meta(name='viewport' content='width=device-width, initial-scale=1.0')
-        link(rel='stylesheet' href='/css/style.css') 
-        link(rel='shortcut icon' type='image/png' href='/img/island.png') 
-        link(rel='stylesheet' href="https://fonts.googleapis.com/css?family=Lato:300,300i,700")
-        title TourPadi | #{title}
+        block head
+            meta(charset='UTF-8')
+            meta(name='viewport' content='width=device-width, initial-scale=1.0')
+            link(rel='stylesheet' href='/css/style.css') 
+            link(rel='shortcut icon' type='image/png' href='/img/island.png') 
+            link(rel='stylesheet' href="https://fonts.googleapis.com/css?family=Lato:300,300i,700")
+            title TourPadi | #{title}
 
     body
         // HEADER starts here
@@ -17,3 +18,4 @@ html
         // FOOTER
         include _footer
 
+        script(src='/js/mapbox.js')
