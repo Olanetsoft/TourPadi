@@ -2,5 +2,3 @@ node_modules
 *env
 *txt
 *config.env
-*bundle.js
-*bundle.js.map
