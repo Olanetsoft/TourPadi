@@ -8456,7 +8456,7 @@ var logout = /*#__PURE__*/function () {
             if (result.data.status = 'success') {
               (0, _alert.showAlert)('error', 'Logging out user...');
               window.setTimeout(function () {
-                location.reload(true);
+                location.assign('/');
               }, 1500);
             }
 

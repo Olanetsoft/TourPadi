@@ -40,7 +40,7 @@ export const logout = async () => {
         if((result.data.status ='success')) {
             showAlert('error', 'Logging out user...');
             window.setTimeout(() => {
-                location.reload(true)
+                location.assign('/')
             }, 1500)
         }
     } catch (err) {
