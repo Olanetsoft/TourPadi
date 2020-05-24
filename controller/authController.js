@@ -43,7 +43,7 @@ exports.signup = async (req, res, next) => {
         //sending cookie to the client
         if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
         res.cookie('jwt', token, cookieOptions);
-      
+
 
         //removing the password from the output in response after sign up
         newUser.password = undefined;
@@ -123,7 +123,7 @@ exports.protect = async (req, res, next) => {
         //1.) Get token and check if it exist
         if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
             token = req.headers.authorization.split(' ')[1];
-        }else if (req.cookies.jwt){
+        } else if (req.cookies.jwt) {
             token = req.cookies.jwt
         };
 
@@ -178,6 +178,45 @@ exports.restrictTo = (...roles) => {
         next();
     }
 };
+
+//to check if user is logged in
+//and only render pages
+exports.isLoggedIn = async (req, res, next) => {
+    try {
+
+        if (req.cookies.jwt) {
+
+            // Verify the token 
+            const decoded = await promisify(jwt.verify)(req.cookies.jwt, process.env.JWT_SECRET);
+
+
+            //2.) check if user still exists
+            const currentUser = await User.findById(decoded.id);
+            if (!currentUser) {
+                return next();
+            };
+
+
+            //3.) check if user changed password after the token was issued
+            if (currentUser.changedPasswordAfter(decoded.iat)) {
+                return next()
+            };
+
+            //There is a loggedIn user
+            //now use response.local
+            res.locals.user = currentUser
+            return next();
+        }
+        next();
+    } catch (err) {
+        next(new AppError('failed 😒', 401));
+        // res.status(400).json({
+        //     status: 'failed',
+        //     message: err
+        // });
+    }
+};
+
 
 
 //Creating forgot password handler

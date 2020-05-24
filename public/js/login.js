@@ -9,9 +9,15 @@ const login = async (email, password) => {
                 password
             }
         });
-        console.log(result);
+
+        if(result.data.status === 'success'){
+            alert('Logged in Successfully');
+            window.setTimeout(()=>{
+                location.assign('/');
+            }, 1500)
+        }
     } catch (err) {
-        console.log(err.response.data);
+        alert(err.response.data.message);
     }
 
 };
