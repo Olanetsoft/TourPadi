@@ -1,5 +1,6 @@
 
-const login = async (email, password) => {
+//exporting a js file is not like node just add export
+export const login = async (email, password) => {
     try {
         const result = await axios({
             method: 'POST',
@@ -23,12 +24,3 @@ const login = async (email, password) => {
 };
 
 
-
-document.querySelector('.form').addEventListener('submit', e => {
-    e.preventDefault();
-
-    //get the email and password
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    login(email, password);
-});
