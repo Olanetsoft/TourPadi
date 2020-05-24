@@ -1,6 +1,9 @@
 //importing tour model
 const Tour = require('../models/tourModel');
 
+//import user models
+const User = require('../models/userModel');
+
 //import AppError
 const AppError = require('../utils/appError');
 
@@ -37,7 +40,7 @@ exports.tourDetail = async (req, res, next) => {
         });
 
         //check if theres no tour
-        if(!singleTour){
+        if (!singleTour) {
             return next(new AppError('There is no tour with that name', 404));
         }
 
@@ -63,5 +66,22 @@ exports.loginUser = (req, res, next) => {
 exports.getAccountDetails = (req, res) => {
     res.status(200).render('account', {
         title: 'Your Account'
+    });
+};
+
+//update details
+exports.updateUserData = async (req, res, next) => {
+    const updatedUser = await User.findByIdAndUpdate(req.user.id, {
+        name: req.body.name,
+        email: req.body.email
+    },
+        {
+            new: true,
+            runValidators: true
+        }
+    );
+    res.status(200).render('account', {
+        title: 'Your Account',
+        user: updatedUser
     });
 };

@@ -18,4 +18,6 @@ router.get('/login',authController.isLoggedIn, viewsController.loginUser);
 router.get('/me', authController.protect, viewsController.getAccountDetails);
 
 
+router.post('/Submit-user-data',authController.protect,  viewsController.updateUserData)
+
 module.exports = router;

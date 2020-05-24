@@ -9,7 +9,7 @@ import { displayMap } from './mapbox';
 
 //DOM ELEMENT
 const mapBox = document.getElementById('map');
-const loginForm = document.querySelector('.form');
+const loginForm = document.querySelector('.form--login');
 const logoutBtn = document.querySelector('.nav__el--logout');
 
 
