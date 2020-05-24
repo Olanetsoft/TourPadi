@@ -38,6 +38,7 @@ const handleValidationErrorDB = err => {
 
 //Send error for development env
 const sendDevError = (err, req, res) => {
+    //API
     if (req.originalUrl.startsWith('/api')) {
         res.status(err.statusCode).json({
             status: err.status,
@@ -46,32 +47,43 @@ const sendDevError = (err, req, res) => {
             stack: err.stack
         });
     } else {
-        res.status(err.status).render('error', {
-            title: 'Oops! Something went wrong!'
+        //RENDERED WEBSITE
+        res.status(err.statusCode).render('error', {
+            title: 'Oops! Something went wrong!',
+            msg: err.message
         });
     }
 };
 
 //send error for production env
 const sendProdError = (err, req, res) => {
-    //Operational, trusted error: send message to client
-    if (err.isOperational) {
-        res.status(err.statusCode).json({
-            status: err.status,
-            message: err.message
+    //a) API
+    if (req.originalUrl.startsWith('/api')) {
+        //Operational, trusted error: send message to client
+        if (err.isOperational) {
+            res.status(err.statusCode).render('error', {
+                title: 'Oops! Something went wrong!',
+                msg: err.message
+            });
+        }
+        //programming error, Don't leak error details
+        else {
+            //1) Log error
+            console.error('ERROR ☹', err);
+
+            //2) Send generic error
+            res.status(500).json({
+                status: 'error 🙄',
+                message: 'Something went wrong !'
+            });
+        };
+    } else {
+        //b) RENDERED WEBSITE
+        res.status(err.statusCode).render('error', {
+            title: 'Oops! Something went wrong!',
+            msg: 'Please try again later!'
         });
     }
-    //programming error, Don't leak error details
-    else {
-        //1) Log error
-        console.error('ERROR ☹', err);
-
-        //2) Send generic error
-        res.status(500).json({
-            status: 'error 🙄',
-            message: 'Something went wrong !'
-        });
-    };
 
 };
 

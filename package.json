@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
-    "start:prod": "SET NODE_ENV=production & nodemon server.js",
+    "start:prod": "NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js",
     "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
     "build:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
@@ -41,6 +41,7 @@
     "pug": "^2.0.4",
     "slugify": "^1.4.0",
     "validator": "^13.0.0",
+    "win-node-env": "^0.4.0",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
