@@ -5,6 +5,9 @@ const morgan = require('morgan');
 //Requiring hpp 
 const hpp = require('hpp');
 
+//requiring the cookie parser
+const cookieParser = require('');
+
 //Requiring mono sanitizer
 const mongoSanitizer = require('express-mongo-sanitize');
 
