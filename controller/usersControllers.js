@@ -9,23 +9,27 @@ const factory = require('./handlerFactory');
 
 
 const multer = require('multer');
+//require sharp
+const sharp = require('sharp');
 
 //creating a multer storage
-const multerStorage = multer.diskStorage({ 
-    destination: (req, file, cb) => {
-        cb(null, 'public/img/users');
-    },
-    filename: (req, file, cb) => {
-        const extension = file.mimetype.split('/')[1];
-        cb(null, `user-${req.user.id}-${Date.now()}.${extension}`);
-    }
-});
+// const multerStorage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'public/img/users');
+//     },
+//     filename: (req, file, cb) => {
+//         const extension = file.mimetype.split('/')[1];
+//         cb(null, `user-${req.user.id}-${Date.now()}.${extension}`);
+//     }
+// });
+
+const multerStorage = multer.memoryStorage();
 
 //creating a multer filter
 const multerFilter = (req, file, cb) => {
-    if(file.mimetype.startsWith('image')){
+    if (file.mimetype.startsWith('image')) {
         cb(null, true)
-    }else{
+    } else {
         cb(new AppError('Not an image! please upload only images', 400), false)
     };
 };
@@ -39,7 +43,22 @@ const upload = multer({
 
 
 //for photo upload
-exports.uploadUserPhoto =  upload.single('photo')
+exports.uploadUserPhoto = upload.single('photo')
+
+
+//for resizing user photo
+exports.resizeUserPhoto = (req, res, next) => {
+    if (!req.file) return next();
+
+    req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+
+    sharp(req.file.buffer).resize(500, 500)
+        .toFormat('jpeg')
+        .jpeg({ quality: 90 })
+        .toFile(`public/img/users/${req.file.filename}`);
+    //call the next middleware in the stack
+    next()
+};
 
 
 
@@ -117,7 +136,7 @@ exports.updateMe = async (req, res, next) => {
         const filteredBody = filterObj(req.body, 'name', 'email');
 
         //check if file upload is included for photo
-        if(req.file) {
+        if (req.file) {
             filteredBody.photo = req.file.filename
         }
 
@@ -139,7 +158,7 @@ exports.updateMe = async (req, res, next) => {
         });
     } catch (err) {
         next(new AppError('Fail to update user data', 400));
-          // res.status(404).json({
+        // res.status(404).json({
         //     status: "failed",
         //     message: err
         // });

@@ -28,7 +28,7 @@ router.get('/api/v1/users/me', userController.getMe, userController.getUser);
 
 router.patch('/api/v1/users/updateMyPassword', authController.updatePassword);
 
-router.patch('/api/v1/users/updateMe', userController.uploadUserPhoto, userController.updateMe);
+router.patch('/api/v1/users/updateMe', userController.uploadUserPhoto, userController.resizeUserPhoto, userController.updateMe);
 
 router.delete('/api/v1/users/deleteMe', userController.deleteMe);
 
