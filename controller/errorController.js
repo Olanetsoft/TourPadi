@@ -73,7 +73,7 @@ const sendProdError = (err, req, res) => {
 
             //2) Send generic error
             res.status(500).json({
-                status: 'error 🙄',
+                status: 'error',
                 message: 'Something went wrong !'
             });
         };

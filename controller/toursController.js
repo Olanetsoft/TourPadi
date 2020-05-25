@@ -67,7 +67,7 @@ exports.getTours = async (req, res, next) => {
 
         //SEND RESPONSE IN JSON
         res.status(200).json({
-            status: 'success 🙌',
+            status: 'success',
             result: allTours.length,
             data: {
                 allTours
@@ -248,7 +248,7 @@ exports.getMonthlyPlan = async (req, res, next) => {
         ]);
 
         res.status(200).json({
-            status: 'success 🤩',
+            status: 'success',
             data: {
                 plan
             }
@@ -289,7 +289,7 @@ exports.getAllToursWithin = async (req, res, next) => {
         });
 
         res.status(200).json({
-            status: 'success 🤩',
+            status: 'success',
             result: tours.length,
             data: {
                 data: tours
@@ -339,7 +339,7 @@ exports.getDistance = async (req, res, next) => {
         ])
 
         res.status(200).json({
-            status: 'success 🤩',
+            status: 'success',
             data: {
                 data: distances
             }

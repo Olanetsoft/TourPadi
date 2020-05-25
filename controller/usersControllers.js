@@ -56,7 +56,7 @@ exports.getAllUsers = async (req, res, next) => {
 
         //SEND RESPONSE IN JSON
         res.status(200).json({
-            status: 'success 🙌',
+            status: 'success',
             result: users.length,
             data: {
                 users
@@ -93,7 +93,7 @@ exports.updateMe = async (req, res, next) => {
 
         //SEND RESPONSE IN JSON
         res.status(200).json({
-            status: 'success 🙌',
+            status: 'success',
             data: {
                 user: updatedUser
             }
@@ -116,7 +116,7 @@ exports.deleteMe = async (req, res, next) => {
 
         //SEND RESPONSE IN JSON
         res.status(204).json({
-            status: 'success 🙌',
+            status: 'success',
             data: null
 
         });

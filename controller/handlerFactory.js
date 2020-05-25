@@ -50,7 +50,7 @@ exports.createOneDocument = Model => async (req, res, next) => {
 
         const doc = await Model.create(req.body);
         res.status(201).json({
-            status: 'success 🙌',
+            status: 'success',
             result: doc.length,
             data: {
                 data: doc

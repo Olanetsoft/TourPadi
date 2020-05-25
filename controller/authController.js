@@ -122,7 +122,7 @@ exports.logout = (req, res, next) => {
         httpOnly: true
     });
     res.status(200).json({
-        status: 'success 😋'
+        status: 'success'
     });
 };
 
@@ -368,7 +368,7 @@ exports.updatePassword = async (req, res, next) => {
         });
 
         res.status(201).json({
-            status: 'Success',
+            status: 'success',
             token,
             data: {
                 user
