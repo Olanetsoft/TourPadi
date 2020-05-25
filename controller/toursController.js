@@ -13,6 +13,48 @@ const factory = require('./handlerFactory');
 
 
 
+const multer = require('multer');
+//require sharp
+const sharp = require('sharp');
+
+
+///Configuring multiple image upload
+const multerStorage = multer.memoryStorage();
+//creating a multer filter
+const multerFilter = (req, file, cb) => {
+    if (file.mimetype.startsWith('image')) {
+        cb(null, true)
+    } else {
+        cb(new AppError('Not an image! please upload only images', 400), false)
+    };
+};
+
+//declaring multer upload to save all the file uploaded to a folder
+const upload = multer({
+    storage: multerStorage,
+    fileFilter: multerFilter
+});
+
+exports.uploadTourImages = upload.fields([
+    {
+        name: 'imageCover',
+        maxCount: 1
+    },
+    {
+        name: 'images',
+        maxCount: 3
+    }
+]);
+//upload.single('image') req.file
+//upload.array('image', 5) req.files
+
+exports.resizeTourImages = (req, res, next) => {
+    console.log(req.files);
+    next();
+};
+
+
+
 
 //middleware to query top 5 cheap tours
 exports.aliasTopTours = (req, res, next) => {

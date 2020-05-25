@@ -29,7 +29,7 @@ router.get('/api/v1/monthly-plan/:year', authController.protect, authController.
 
 router.post('/api/v1/tour', authController.protect, authController.restrictTo('admin', 'lead-guide'), toursController.createTour);
 
-router.patch('/api/v1/tour/:id', authController.protect, authController.restrictTo('admin', 'lead-guide'), toursController.updateTour);
+router.patch('/api/v1/tour/:id', authController.protect, authController.restrictTo('admin', 'lead-guide'), toursController.uploadTourImages, toursController.resizeTourImages, toursController.updateTour);
 
 router.delete('/api/v1/tour/:id', authController.protect, authController.restrictTo('admin', 'lead-guide'), toursController.deleteTour);
 
