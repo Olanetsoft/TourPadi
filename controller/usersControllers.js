@@ -99,7 +99,11 @@ exports.updateMe = async (req, res, next) => {
             }
         });
     } catch (err) {
-        next(new AppError('Update me failed', 400))
+        next(new AppError('Fail to update user data', 400));
+          // res.status(404).json({
+        //     status: "failed",
+        //     message: err
+        // });
     };
 };
 
