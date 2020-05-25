@@ -54,8 +54,7 @@ module.exports = class Email {
         };
 
         //3) create a transport and send mail
-        
-        await newTransport().sendMail(mailOptions)
+        await this.newTransport().sendMail(mailOptions)
 
     };
 

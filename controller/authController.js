@@ -12,7 +12,7 @@ const User = require('./../models/userModel');
 const AppError = require('./../utils/appError');
 
 //import the email function
-const sendMail = require('./../utils/email');
+const Email = require('./../utils/email');
 
 
 //signup user
@@ -27,7 +27,13 @@ exports.signup = async (req, res, next) => {
             passwordConfirm: req.body.passwordConfirm,
             passwordChangedAt: req.body.passwordChangedAt
         });
-
+        
+       
+        // send welcome mail
+        const url = `${req.protocol}://${req.get('host')}/me`;
+        console.log(url)
+        const g = await new Email(newUser, url).sendWelcome();
+        console.log(g);
         //using the jwt to create a signature 
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_EXPIRATION
@@ -261,11 +267,11 @@ exports.forgotPassword = async (req, res, next) => {
         const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password kindly ignore this email`;
 
         try {
-            await sendMail({
-                email: user.email,
-                subject: 'Password Reset Mail. (valid for 10mins)',
-                message
-            });
+            // await sendMail({
+            //     email: user.email,
+            //     subject: 'Password Reset Mail. (valid for 10mins)',
+            //     message
+            // });
 
             res.status(200).json({
                 status: 'success',
