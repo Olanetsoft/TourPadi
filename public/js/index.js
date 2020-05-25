@@ -55,8 +55,12 @@ if (userDataForm) userDataForm.addEventListener('submit', e => {
 
 
 //submit password
-if (userPasswordForm) userPasswordForm.addEventListener('submit', e => {
+if (userPasswordForm) userPasswordForm.addEventListener('submit', async e => {
     e.preventDefault();
+
+    //to give the user some feedback when saving
+    //1)
+    document.querySelector('.btn--save-password').textContent = 'Updating...';
 
     //VALUES
     //get the passwordCurrent,password and passwordConfirm
@@ -64,5 +68,16 @@ if (userPasswordForm) userPasswordForm.addEventListener('submit', e => {
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('password-confirm').value;
     
-    updateSettings({currentPassword, password, passwordConfirm}, 'password');
+    await updateSettings({currentPassword, password, passwordConfirm}, 'password');
+
+    
+    //to give the user some feedback when saving
+    //1)
+    document.querySelector('.btn--save-password').textContent = 'Save Password';
+
+    //to clear data from frontend after updating
+    document.getElementById('password-current').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('password-confirm').value = '';
+
 });
