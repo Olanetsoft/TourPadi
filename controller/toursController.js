@@ -48,8 +48,41 @@ exports.uploadTourImages = upload.fields([
 //upload.single('image') req.file
 //upload.array('image', 5) req.files
 
-exports.resizeTourImages = (req, res, next) => {
-    console.log(req.files);
+exports.resizeTourImages = async (req, res, next) => {
+    //check if no req.file
+    if (!req.files.imageCover || !req.files.images) return next();
+
+    //1) Cove image
+    const imageCoverFilename = `tour-${req.params.id}-${Date.now()}-cover.jpeg`
+
+    await sharp(req.files.imageCover[0].buffer)
+        .resize(2000, 1333)
+        .toFormat('jpeg')
+        .jpeg({ quality: 90 })
+        .toFile(`public/img/tours/${imageCoverFilename}`);
+
+    //update handler needs to pick up the file name
+    req.body.imageCover = imageCoverFilename;
+
+    
+    //2) processing all Images
+    //create an empty array
+    req.body.images = [];
+
+    await Promise.all(req.files.images.map(async (file, i) => {
+        //save the file name
+        const filename = `tour-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
+
+        await sharp(file.buffer)
+            .resize(2000, 1333)
+            .toFormat('jpeg')
+            .jpeg({ quality: 90 })
+            .toFile(`public/img/tours/${filename}`);
+
+        //pushing each image to the array
+        req.body.images.push(filename)
+    }));
+
     next();
 };
 

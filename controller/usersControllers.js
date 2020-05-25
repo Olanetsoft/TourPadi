@@ -43,22 +43,29 @@ const upload = multer({
 
 
 //for photo upload
-exports.uploadUserPhoto = upload.single('photo')
+exports.uploadUserPhoto = upload.single('photo');
 
 
 //for resizing user photo
-exports.resizeUserPhoto = (req, res, next) => {
-    if (!req.file) return next();
+exports.resizeUserPhoto = async (req, res, next) => {
+    try {
+        if (!req.file) return next();
 
-    req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+        req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
-    sharp(req.file.buffer).resize(500, 500)
-        .toFormat('jpeg')
-        .jpeg({ quality: 90 })
-        .toFile(`public/img/users/${req.file.filename}`);
-    //call the next middleware in the stack
-    next()
+        await sharp(req.file.buffer).resize(500, 500)
+            .toFormat('jpeg')
+            .jpeg({ quality: 90 })
+            .toFile(`public/img/users/${req.file.filename}`);
+        //call the next middleware in the stack
+        next()
+    } catch (err) {
+        next(new AppError('Error resizing document', 404));
+    }
+
 };
+
+
 
 
 
