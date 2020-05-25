@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+
+
 //import auth controller
 const authController = require('../controller/authController');
 
@@ -26,7 +28,7 @@ router.get('/api/v1/users/me', userController.getMe, userController.getUser);
 
 router.patch('/api/v1/users/updateMyPassword', authController.updatePassword);
 
-router.patch('/api/v1/users/updateMe', userController.updateMe);
+router.patch('/api/v1/users/updateMe', userController.uploadUserPhoto, userController.updateMe);
 
 router.delete('/api/v1/users/deleteMe', userController.deleteMe);
 
