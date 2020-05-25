@@ -23,7 +23,10 @@ const userSchema = new mongoose.Schema({
         //using the validator installed
         validate: [validator.isEmail, 'Please provide a valid email 🙄']
     },
-    photo: String,
+    photo: {
+        type: String,
+        default: 'default.jpg'
+    },
     role: {
         type: String,
         enum: ['user', 'guide', 'lead-guide', 'admin'],
@@ -92,9 +95,9 @@ userSchema.pre('save', function (next) {
 
 
 //Not to show an inactive user when requesting all users Routes
-userSchema.pre(/^find/, function(next){
+userSchema.pre(/^find/, function (next) {
     //this points to the current query
-    this.find({active: {$ne: false}})
+    this.find({ active: { $ne: false } })
     next();
 })
 
