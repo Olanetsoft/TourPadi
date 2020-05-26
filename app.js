@@ -92,11 +92,11 @@ app.use(hpp({
 }));
 
 
-
+//requiring all route
+const bookingRoutes = require('./routes/bookingRoute');
 const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
 const reviewsRoutes = require('./routes/reviews');
-const bookingRoutes = require('./routes/bookingRoute');
 const viewsRoutes = require('./routes/views');
 
 
@@ -108,11 +108,12 @@ app.use((req, res, next) => {
 
 
 //registering the route middleware
+app.use(bookingRoutes);
 app.use(viewsRoutes);
 app.use(tourRoutes);
 app.use(usersRoutes);
 app.use(reviewsRoutes);
-app.use(bookingRoutes);
+
 
 
 

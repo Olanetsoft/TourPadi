@@ -9,7 +9,7 @@ const authController = require('./../controller/authController');
 
 
 //for the client to get a checkout section
-router.get('/api/v1/checkout-session/:tourID', authController.protect, bookingController.getCheckoutSession);
+router.get('/api/v1/bookings/checkout-session/:tourID', authController.protect, bookingController.getCheckoutSession);
 
 
 
