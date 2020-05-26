@@ -10,6 +10,8 @@ const Tour = require('../models/tourModel');
 //importing booking model
 const Booking = require('../models/bookingModel');
 
+//import handlerFactory
+const factory = require('./handlerFactory');
 
 
 
@@ -71,3 +73,10 @@ exports.createBookingCheckout = async (req, res, next) => {
         next(new AppError('Unable to create booking', 404));
     };
 };
+
+
+exports.createBooking = factory.createOneDocument(Booking)
+// exports.getBooking = factory.createOneDocument(Booking)
+// exports.getAllBooking = factory.createOneDocument(Booking)
+exports.updateBooking = factory.updateOneDocument(Booking)
+exports.deleteBooking = factory.deleteOneDocument(Booking)
