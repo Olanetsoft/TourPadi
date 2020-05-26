@@ -96,6 +96,7 @@ app.use(hpp({
 const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
 const reviewsRoutes = require('./routes/reviews');
+const bookingRoutes = require('./routes/bookingRoute');
 const viewsRoutes = require('./routes/views');
 
 
@@ -111,6 +112,7 @@ app.use(viewsRoutes);
 app.use(tourRoutes);
 app.use(usersRoutes);
 app.use(reviewsRoutes);
+app.use(bookingRoutes);
 
 
 
