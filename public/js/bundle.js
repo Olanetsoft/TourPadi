@@ -8452,6 +8452,8 @@ var logout = /*#__PURE__*/function () {
 
           case 3:
             result = _context2.sent;
+            console.log(result);
+            console.log("I hit");
 
             if (result.data.status = 'success') {
               //to give the user some feedback when logging out
@@ -8464,23 +8466,23 @@ var logout = /*#__PURE__*/function () {
               // }, 1500)
             }
 
-            _context2.next = 10;
+            _context2.next = 12;
             break;
 
-          case 7:
-            _context2.prev = 7;
+          case 9:
+            _context2.prev = 9;
             _context2.t0 = _context2["catch"](0);
             (0, _alert.showAlert)('error', 'Error logging out ! Try again');
 
-          case 10:
+          case 12:
             ;
 
-          case 11:
+          case 13:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 7]]);
+    }, _callee2, null, [[0, 9]]);
   }));
 
   return function logout() {
@@ -8644,29 +8646,27 @@ var bookTour = /*#__PURE__*/function () {
 
           case 3:
             session = _context.sent;
-            console.log(session); //2) create checkout form + change credit card
-
-            _context.next = 7;
+            _context.next = 6;
             return stripe.redirectToCheckout({
               sessionId: session.data.session.id
             });
 
-          case 7:
-            _context.next = 12;
+          case 6:
+            _context.next = 11;
             break;
 
-          case 9:
-            _context.prev = 9;
+          case 8:
+            _context.prev = 8;
             _context.t0 = _context["catch"](0);
             // console.log(err);
             (0, _alert.showAlert)('error', _context.t0);
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 9]]);
+    }, _callee, null, [[0, 8]]);
   }));
 
   return function bookTour(_x) {
@@ -9069,7 +9069,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52934" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62203" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -37,6 +37,8 @@ export const logout = async () => {
             url: 'http://localhost:3000/api/v1/users/logout'
 
         });
+        console.log(result);
+        console.log("I hit")
         if ((result.data.status = 'success')) {
 
             //to give the user some feedback when logging out
