@@ -16,8 +16,8 @@ module.exports = class Email {
         this.from = `Idris <${process.env.EMAIL_FROM}>`;
     };
 
-    newTransport(){
-        if(process.env.NODE_ENV === 'production'){
+    newTransport() {
+        if (process.env.NODE_ENV === 'production') {
             //sendGrid
             return 1
         }
@@ -33,13 +33,13 @@ module.exports = class Email {
     }
 
     //Then lets send
-    async send(template, subject){
+    async send(template, subject) {
 
         //send actual mail
         //1) Render html for email base on pug template
         const html = pug.renderFile(`${__dirname}/../views/emails/${template}.pug`, {
             firstName: this.firstName,
-            url: this.url, 
+            url: this.url,
             subject
         })
 
@@ -60,8 +60,16 @@ module.exports = class Email {
 
 
     //function that handles the sending of welcome message
-    async sendWelcome(){
+    async sendWelcome() {
         await this.send('Welcome', 'Welcome to Tour Padi family!')
+    };
+
+    //send password reset mail to mailtrap.io
+    async sendPasswordReset() {
+        await this.send(
+            'passwordReset',
+            'Your password reset token (valid for only 10 minutes)'
+        );
     }
 };
 
