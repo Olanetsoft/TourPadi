@@ -10,12 +10,16 @@ import { updateSettings } from './updateSettings';
 //import polyfill
 import { displayMap } from './mapbox';
 
+//import bookTour
+import { bookTour } from './stripe';
+
 //DOM ELEMENT
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const logoutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
+const bookBtn = document.getElementById('book-tour');
 
 
 
@@ -48,11 +52,11 @@ if (userDataForm) userDataForm.addEventListener('submit', e => {
     //VALUES
     //get the email and name
     const form = new FormData()
-    form.append( 'name', document.getElementById('name').value)
-    form.append( 'email', document.getElementById('email').value)
+    form.append('name', document.getElementById('name').value)
+    form.append('email', document.getElementById('email').value)
     form.append('photo', document.getElementById('photo').files[0])
     // const email = document.getElementById('email').value;
-    
+
     updateSettings(form, 'data');
 });
 
@@ -70,10 +74,10 @@ if (userPasswordForm) userPasswordForm.addEventListener('submit', async e => {
     const currentPassword = document.getElementById('password-current').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('password-confirm').value;
-    
-    await updateSettings({currentPassword, password, passwordConfirm}, 'password');
 
-    
+    await updateSettings({ currentPassword, password, passwordConfirm }, 'password');
+
+
     //to give the user some feedback when saving
     //1)
     document.querySelector('.btn--save-password').textContent = 'Save Password';
@@ -84,3 +88,12 @@ if (userPasswordForm) userPasswordForm.addEventListener('submit', async e => {
     document.getElementById('password-confirm').value = '';
 
 });
+
+if (bookBtn) {
+    bookBtn.addEventListener('click', e => {
+        e.target.textContent = 'Processing...';
+
+        const { tourId } = e.target.dataset;
+        bookTour(tourId);
+    })
+}
