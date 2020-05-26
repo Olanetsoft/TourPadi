@@ -24,6 +24,8 @@ router.get('/login', authController.isLoggedIn, viewsController.loginUser);
 
 router.get('/me', authController.protect, viewsController.getAccountDetails);
 
+router.get('/my-tours', authController.protect, viewsController.getMyTours);
+
 
 router.post('/api/v1/users/updateMe', authController.protect, viewsController.updateUserData)
 

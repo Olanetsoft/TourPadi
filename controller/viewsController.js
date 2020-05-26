@@ -4,6 +4,10 @@ const Tour = require('../models/tourModel');
 //import user models
 const User = require('../models/userModel');
 
+
+//import booking
+const Booking = require('../models/bookingModel');
+
 //import AppError
 const AppError = require('../utils/appError');
 
@@ -68,6 +72,32 @@ exports.getAccountDetails = (req, res) => {
         title: 'Your Account'
     });
 };
+
+
+//get tours booked by the user
+exports.getMyTours = async (req, res, next) => {
+    try {
+
+        //1) find bookings
+        const bookings = await Booking.find({
+            user: req.user.id
+        });
+
+        //2)find tours with the return IDs
+        const tourIDs = bookings.map(el => el.tour)
+        const tours = await Tour.find({_id: {$in: tourIDs}})
+
+        res.status(200).render('overview', {
+            title: 'My Tours',
+            tours
+        })
+
+    } catch (err) {
+        next(new AppError('Failed to get !', 404));
+    }
+};
+
+
 
 //update details
 exports.updateUserData = async (req, res, next) => {

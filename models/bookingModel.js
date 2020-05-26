@@ -33,7 +33,7 @@ bookingSchema.pre(/^find/, function (next) {
         //this was added not to show this field upon request
         select: 'name'
     });
-
+    next();
 });
 
 //define the Booking Model
