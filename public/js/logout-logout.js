@@ -21,9 +21,13 @@ export const login = async (email, password) => {
             window.setTimeout(() => {
                 location.assign('/');
             }, 1500)
-        }
+        };
     } catch (err) {
         showAlert('error', err.response.data.message);
+        console.error('ERROR-----', err);
+        console.error('ERROR-----1', err.response);
+        console.error('ERROR-----2', err.response.data);
+        console.error('ERROR-----3', err.response.data.message);
     }
 
 };
