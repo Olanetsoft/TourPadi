@@ -2,6 +2,8 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 
+//Requiring compression to compress text file
+const compression = require('compression');
 
 //Requiring hpp 
 const hpp = require('hpp');
@@ -90,6 +92,9 @@ app.use(hpp({
         'price'
     ]
 }));
+
+//use the compression
+app.use(compression())
 
 
 //requiring all route

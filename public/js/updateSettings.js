@@ -11,8 +11,8 @@ export const updateSettings = async (data, type) => {
         //find the url and check the type
         const url =
             type === 'password'
-                ? 'http://localhost:3000/api/v1/users/updateMyPassword'
-                : 'http://localhost:3000/api/v1/users/updateMe';
+                ? '/api/v1/users/updateMyPassword'
+                : '/api/v1/users/updateMe';
 
 
         const result = await axios({
