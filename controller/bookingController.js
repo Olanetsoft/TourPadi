@@ -81,6 +81,7 @@ exports.getCheckoutSession = async (req, res, next) => {
 // };
 
 
+
 //create a function to handle booking
 const createBookingCheckout = async session => {
     //the tour
@@ -92,7 +93,8 @@ const createBookingCheckout = async session => {
     await Booking.create({
         tour, user, price
     });
-}
+};
+
 
 
 //handler for stripe webhook-checkout

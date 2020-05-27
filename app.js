@@ -31,8 +31,8 @@ const globalErrorHandler = require('./controller/errorController');
 
 
 //requiring all route
-const bookingRoutes = require('./routes/bookingRoute');
 const bookingController = require('./controller/bookingController');
+const bookingRoutes = require('./routes/bookingRoute');
 const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
 const reviewsRoutes = require('./routes/reviews');
