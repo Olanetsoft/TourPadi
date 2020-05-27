@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
-
+const compression = require('compression');
 
 //Requiring hpp 
 const hpp = require('hpp');
@@ -102,6 +102,8 @@ app.use(hpp({
     ]
 }));
 
+//
+app.use(compression());
 
 
 //a middleware to test
