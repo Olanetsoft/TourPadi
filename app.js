@@ -93,8 +93,6 @@ app.use(hpp({
     ]
 }));
 
-//use the compression
-app.use(compression())
 
 
 //requiring all route
@@ -103,6 +101,10 @@ const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
 const reviewsRoutes = require('./routes/reviews');
 const viewsRoutes = require('./routes/views');
+
+
+//use the compression
+app.use(compression())
 
 
 //a middleware to test
