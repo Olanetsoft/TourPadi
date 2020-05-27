@@ -10,7 +10,11 @@ const reviewController = require('../controller/reviewController');
 //import authentication controller module
 const authController = require('./../controller/authController');
 
+//specify url this way which contains a lot of options
+router.get('/api/v1/tours/tours-within/:distance/center/:latlng/unit/:unit', toursController.getAllToursWithin);
 
+//getting the users distance
+router.get('/api/v1/tours/distances/:latlng/unit/:unit', toursController.getDistance);
 
 
 router.get('/api/v1/tours', toursController.getTours);
@@ -28,18 +32,6 @@ router.post('/api/v1/tour', authController.protect, authController.restrictTo('a
 router.patch('/api/v1/tour/:id', authController.protect, authController.restrictTo('admin', 'lead-guide'), toursController.uploadTourImages, toursController.resizeTourImages, toursController.updateTour);
 
 router.delete('/api/v1/tour/:id', authController.protect, authController.restrictTo('admin', 'lead-guide'), toursController.deleteTour);
-
-
-
-
-
-//specify url this way which contains a lot of options
-router.get('/api/v1/tours/tours-within/:distance/center/:latlng/unit/:unit', toursController.getAllToursWithin);
-
-//getting the users distance
-router.get('/api/v1/tours/distances/:latlng/unit/:unit', toursController.getDistance);
-
-
 
 
 
