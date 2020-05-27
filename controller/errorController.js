@@ -87,7 +87,7 @@ const sendProdError = (err, req, res) => {
         });
         console.log(err.status)
         console.log(err)
-        console.log( err.message)
+        console.log(err.message)
         console.log(err.stack)
        
     }

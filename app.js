@@ -1,9 +1,10 @@
+//Requiring compression to compress text file
+const compression = require('compression');
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 
-//Requiring compression to compress text file
-const compression = require('compression');
+
 
 //Requiring hpp 
 const hpp = require('hpp');
@@ -93,8 +94,6 @@ app.use(hpp({
     ]
 }));
 
-//use the compression
-app.use(compression())
 
 
 //requiring all route
@@ -104,12 +103,15 @@ const usersRoutes = require('./routes/users');
 const reviewsRoutes = require('./routes/reviews');
 const viewsRoutes = require('./routes/views');
 
+//use the compression
+app.use(compression());
+
 
 //a middleware to test
-app.use((req, res, next) => {
-    //console.log(req.cookies);
-    next();
-});
+// app.use((req, res, next) => {
+//     //console.log(req.cookies);
+//     next();
+// });
 
 
 //registering the route middleware
