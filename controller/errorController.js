@@ -81,7 +81,8 @@ const sendProdError = (err, req, res) => {
         //b) RENDERED WEBSITE
         res.status(err.statusCode).render('error', {
             title: 'Oops! Something went wrong!',
-            msg: 'Please try again later!'
+            msg: 'Please try again later!', 
+            stack: err.stack
         });
     }
 
