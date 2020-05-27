@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const compression = require('compression');
+const cors = require('cors');
 
 //Requiring hpp 
 const hpp = require('hpp');
@@ -46,6 +47,11 @@ const app = express();
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
+
+////using cors to set Access-Control-Allow-Origin
+app.use(cors());
+
+app.options('*', cors());
 
 //registering a middleware for server static files
 // app.use(express.static(`${__dirname}/public`));
