@@ -58,7 +58,7 @@ const sendDevError = (err, req, res) => {
 //send error for production env
 const sendProdError = (err, req, res) => {
     //a) API
-    if (req.originalUrl.startsWith('/api')) {
+    if (req.originalUrl.startsWith('/')) {
         //Operational, trusted error: send message to client
         if (err.isOperational) {
             res.status(err.statusCode).render('error', {
