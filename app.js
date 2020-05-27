@@ -52,7 +52,7 @@ app.set('views', path.join(__dirname, 'views'));
 ////using cors to set Access-Control-Allow-Origin
 app.use(cors());
 
-app.options('*', cors());
+//app.options('*', cors());
 
 //registering a middleware for server static files
 // app.use(express.static(`${__dirname}/public`));
