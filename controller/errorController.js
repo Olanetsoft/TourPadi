@@ -79,12 +79,17 @@ const sendProdError = (err, req, res) => {
         };
     } else {
         //b) RENDERED WEBSITE
-        
+        console.error('ERROR-----', err);
+
         res.status(err.statusCode).render('error', {
             title: 'Oops! Something went wrong!',
             msg: 'Please try again later!'
         });
+        console.log(err.status)
         console.log(err)
+        console.log( err.message)
+        console.log(err.stack)
+       
     }
 
 };
