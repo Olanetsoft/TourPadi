@@ -14,7 +14,7 @@ const bookingController = require('../controller/bookingController');
 
 router.get('/',
     //this booking here is temporary until we have out site hosted
-    bookingController.createBookingCheckout,
+    //bookingController.createBookingCheckout,
     authController.isLoggedIn,
     viewsController.getOverview);
 

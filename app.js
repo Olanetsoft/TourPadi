@@ -32,6 +32,7 @@ const globalErrorHandler = require('./controller/errorController');
 
 //requiring all route
 const bookingRoutes = require('./routes/bookingRoute');
+const bookingController = require('./controller/bookingController');
 const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
 const reviewsRoutes = require('./routes/reviews');
@@ -69,6 +70,7 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
+
 //using rateLimit
 const limiter = rateLimit({
     //set the max depending on your application
@@ -76,9 +78,17 @@ const limiter = rateLimit({
     windowMs: 60 * 60 * 1000,
     message: 'Too many request from this IP, please try again in an hour!'
 });
+
+
 //applying the limiter on only the route that starts with /api
 app.use('/api', limiter);
 
+
+//using the post request for webhook
+app.post('/webhook-checkout', express.raw({
+    type: 'application/json'
+}
+), bookingController.webhookCheckout);
 
 
 //Middleware registered
@@ -87,7 +97,7 @@ app.use(express.json({ limit: '10kb' }));
 
 app.use(cookieParser());
 
-app.use(express.urlencoded({extended: true, limit: '10kb'}));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 //Data sanitization against NoSql query injection
 app.use(mongoSanitizer());
