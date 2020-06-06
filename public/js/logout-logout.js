@@ -9,7 +9,7 @@ export const login = async (email, password) => {
     try {
         const result = await axios({
             method: 'POST',
-            url: '/api/v1/users/login',
+            url: 'http://127.0.0.1:3000/api/v1/users/login',
             data: {
                 email,
                 password
@@ -24,10 +24,6 @@ export const login = async (email, password) => {
         };
     } catch (err) {
         showAlert('error', err.response.data.message);
-        console.error('ERROR-----', err);
-        console.error('ERROR-----1', err.response);
-        console.error('ERROR-----2', err.response.data);
-        console.error('ERROR-----3', err.response.data.message);
     }
 
 };
@@ -38,7 +34,7 @@ export const logout = async () => {
 
         const result = await axios({
             method: 'GET',
-            url: '/api/v1/users/logout'
+            url: 'http://127.0.0.1:3000/api/v1/users/logout'
 
         });
         //console.log(result);

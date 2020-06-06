@@ -32,11 +32,11 @@ const globalErrorHandler = require('./controller/errorController');
 
 //requiring all route
 const bookingController = require('./controller/bookingController');
-const bookingRoutes = require('./routes/bookingRoute');
 const tourRoutes = require('./routes/tours');
 const usersRoutes = require('./routes/users');
 const reviewsRoutes = require('./routes/reviews');
 const viewsRoutes = require('./routes/views');
+const bookingRoutes = require('./routes/bookingRoute');
 
 
 
@@ -50,7 +50,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 ////using cors to set Access-Control-Allow-Origin
-app.use(cors());
+//app.use(cors());
 
 //app.options('*', cors());
 
@@ -84,11 +84,11 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 
-//using the post request for webhook
-app.post('/webhook-checkout', express.raw({
-    type: 'application/json'
-}
-), bookingController.webhookCheckout);
+// //using the post request for webhook
+// app.post('/webhook-checkout', express.raw({
+//     type: 'application/json'
+// }
+// ), bookingController.webhookCheckout);
 
 
 //Middleware registered
@@ -130,6 +130,7 @@ app.use((req, res, next) => {
 
 
 //registering the route middleware
+
 app.use(viewsRoutes);
 app.use(tourRoutes);
 app.use(usersRoutes);

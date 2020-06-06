@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-//importing cypto from the node module
+//importing crypto from the node module
 const crypto = require('crypto')
 
 //importing bcrypt
@@ -81,6 +81,7 @@ userSchema.pre('save', async function (next) {
 });
 
 
+
 //To update the changePasswordAt before save a document
 userSchema.pre('save', function (next) {
     //password not modified or is new
@@ -92,6 +93,7 @@ userSchema.pre('save', function (next) {
     this.passwordChangedAt = Date.now() - 1000;
     next();
 });
+
 
 
 //Not to show an inactive user when requesting all users Routes

@@ -8,7 +8,9 @@ const toursController = require('../controller/toursController');
 const reviewController = require('../controller/reviewController');
 
 //import authentication controller module
-const authController = require('./../controller/authController');
+const authController = require('../controller/authController');
+
+
 
 //specify url this way which contains a lot of options
 router.get('/api/v1/tours/tours-within/:distance/center/:latlng/unit/:unit', toursController.getAllToursWithin);

@@ -5,24 +5,24 @@ const router = express.Router();
 const reviewsController = require('../controller/reviewController');
 
 //import authentication controller module
-const authController = require('./../controller/authController');
+const authController = require('../controller/authController');
 
 
 
 //To protect all the review route
-router.use(authController.protect);
+//router.use(authController.protect);
 
 
-router.get('/api/v1/reviews', reviewsController.getAllReviews);
+router.get('/api/v1/reviews', authController.protect, reviewsController.getAllReviews);
 
-router.get('/api/v1/review/:id', reviewsController.getSingleReview);
+router.get('/api/v1/review/:id', authController.protect, reviewsController.getSingleReview);
 
 
-router.post('/api/v1/review', authController.restrictTo('user'), reviewsController.createReview);
+router.post('/api/v1/review', authController.protect, authController.restrictTo('user'), reviewsController.createReview);
 
-router.patch('/api/v1/review/:id', authController.restrictTo('user', 'admin'), reviewsController.updateReview);
+router.patch('/api/v1/review/:id', authController.protect, authController.restrictTo('user', 'admin'), reviewsController.updateReview);
 
-router.delete('/api/v1/review/:id', authController.restrictTo('user', 'admin'), reviewsController.deleteReview);
+router.delete('/api/v1/review/:id', authController.protect, authController.restrictTo('user', 'admin'), reviewsController.deleteReview);
 
 
 module.exports = router;

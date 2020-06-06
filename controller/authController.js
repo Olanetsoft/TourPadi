@@ -4,9 +4,11 @@ const crypto = require('crypto');
 //get the promisify methods
 const { promisify } = require('util');
 
+
 //using the json web token
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
+
 
 //importing error class
 const AppError = require('./../utils/appError');
@@ -72,6 +74,7 @@ exports.signup = async (req, res, next) => {
     };
 
 };
+
 
 //handler for logging in user
 exports.login = async (req, res, next) => {
@@ -176,6 +179,7 @@ exports.protect = async (req, res, next) => {
 
         //now use response.local
         res.locals.user = currentUser
+        
         next();
 
     } catch (err) {
