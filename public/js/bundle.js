@@ -8520,7 +8520,7 @@ var updateSettings = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             //find the url and check the type
-            url = type === 'password' ? 'http://127.0.0.1:3000/api/v1/users/updateMyPassword' : 'http://127.0.0.1:3000/api/v1/users/updateMe';
+            url = type === 'password' ? '/api/v1/users/updateMyPassword' : '/api/v1/users/updateMe';
             _context.next = 4;
             return (0, _axios.default)({
               method: 'PATCH',
@@ -8646,7 +8646,7 @@ var bookTour = /*#__PURE__*/function () {
             // 1) Get checkout session from API
             console.log("ok");
             _context.next = 5;
-            return (0, _axios.default)("http://127.0.0.1:3000/api/v1/bookings/checkout-session/".concat(tourId));
+            return (0, _axios.default)("/api/v1/bookings/checkout-session/".concat(tourId));
 
           case 5:
             session = _context.sent;
