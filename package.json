@@ -47,7 +47,7 @@
     "sharp": "^0.25.3",
     "slugify": "^1.4.0",
     "stripe": "^7.0.0",
-    "validator": "^13.0.0",
+    "validator": "^13.7.0",
     "win-node-env": "^0.4.0",
     "xss-clean": "^0.1.1"
   },
